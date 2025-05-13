@@ -1,32 +1,27 @@
 /* =============================================================================
-  VDP TMS9918A MSX ROM SDCC Library (fR3eL Project)
+  VDP TMS9918A MSX BIOS Library (fR3eL Project)
 ============================================================================= */
 #ifndef  __VDP_TMS9918A_H__
 #define  __VDP_TMS9918A_H__
 
 
-
+// ---------------------------------------------------------
 //VDP Ports  
 #define VDPVRAM   0x98  //VRAM Data (Read/Write)
 #define VDPSTATUS 0x99  //VDP Status Registers
 
 
-
+// ---------------------------------------------------------
 // screen modes
-#define TXT40  0  // text mode       (sc0)
-#define TXT32  1  // graphics 1 mode (sc1)
-#define GRAPH1 2  // graphics 2 mode (sc2)
-#define GRAPH2 3  // multicolor mode (sc3)
-
-
-//screen modes 2
-#define T1 0  //screen 0
-#define G1 1  //screen 1
-#define G2 2  //screen 2
-#define MC 3  //screen 3
+// https://konamiman.github.io/MSX2-Technical-Handbook/md/Chapter4a.html#3--screen-modes-of-the-msx2
+#define TEXT1		0	// text mode       (screen 0)
+#define GRAPHIC1	1	// graphics 1 mode (screen 1)
+#define GRAPHIC2	2	// graphics 2 mode (screen 2)
+#define MULTICOLOR	3	// multicolor mode (screen 3)
 
 
 
+// ---------------------------------------------------------
 // TMS9918 palette color codes
 #ifndef _COLORS
 #define _COLORS
@@ -50,34 +45,82 @@
 #endif
 
 
-// VRAM address tables screen 0 TXT40
-#define BASE0 0x0000 // base 0 name table
-#define BASE2 0x0800 // base 2 character pattern table
 
-// VRAM address tables screen 1 TXT32
-#define BASE5 0x1800 // base 5 name table
-#define BASE6 0x2000 // base 6 color table
-#define BASE7 0x0000 // base 7 character pattern table
-#define BASE8 0x1B00 // base 8 sprite attribute table
-#define BASE9 0x3800 // base 9 sprite pattern table
+/* ----------------------------------------------------------------------------
+Definition of the different zones of the video memory.
+---------------------------------------------------------------------------- */
+#define T1_MAP	0x0000 // Name Table
+#define T1_PAT	0x0800 // Pattern Table
 
-// VRAM address tables screen 2 GRAPH1
-#define BASE10 0x1800 // base 10 name table
-#define BASE11 0x2000 // base 11 color table
-#define BASE12 0x0000 // base 12 character pattern table
-#define BASE13 0x1B00 // base 13 sprite attribute table
-#define BASE14 0x3800 // base 14 sprite pattern table
+#define G1_MAP	0x1800 // Name Table
+#define G1_PAT	0x0000 // Pattern Table
+#define G1_COL	0x2000 // Color Table
 
-// VRAM address tables screen 3 GRAPH2
-#define BASE15 0x0800 // base 15 name table
-#define BASE17 0x0000 // base 17 character pattern table
-#define BASE18 0x1B00 // base 18 sprite attribute table
-#define BASE19 0x3800 // base 19 sprite pattern table
+#define G2_MAP	0x1800 // Name Table
+#define G2_PAT	0x0000 // Pattern Table
+#define G2_PAT_A	0x0000 // Pattern Table Bank A
+#define G2_PAT_B	0x0800 // Pattern Table Bank B
+#define G2_PAT_C	0x1000 // Pattern Table Bank C
+#define G2_COL	0x2000 // Color Table
+#define G2_COL_A	0x2000 // Color Table Bank A
+#define G2_COL_B	0x2800 // Color Table Bank B
+#define G2_COL_C	0x3000 // Color Table Bank C
 
-//G2 BANKs addends
+#define MC_MAP	0x0800 // Name Table
+#define MC_PAT	0x0000 // Pattern Table (A tile contains the color data of 2x2 blocks)
+
+#define SPR_OAM 0x1B00 // Sprite Attribute Table (Object Attribute Memory)
+#define SPR_PAT 0x3800 // Sprite Pattern Table
+
+
+
+
+/* ----------------------------------------------------------------------------
+Definition of the different zones of the video memory, based on the 
+BASE instruction of MSX BASIC.
+OAM = Object Attribute Memory
+---------------------------------------------------------------------------- */
+// VRAM address tables T1 Screen 0 TXT40
+#define BASE0 0x0000 // Name Table
+#define BASE2 0x0800 // Pattern Table
+
+// VRAM address tables G1 Screen 1 TXT32
+#define BASE5 0x1800 // Name Table
+#define BASE6 0x2000 // Color Table
+#define BASE7 0x0000 // Pattern Table
+#define BASE8 0x1B00 // Sprite Attribute Table (OAM)
+#define BASE9 0x3800 // Sprite Pattern Table
+
+// VRAM address tables G2 Screen 2 GRAPH1
+#define BASE10 0x1800 // Name Table
+#define BASE11 0x2000 // Color Table
+#define BASE12 0x0000 // Pattern Table
+#define BASE13 0x1B00 // Sprite Attribute Table (OAM)
+#define BASE14 0x3800 // Sprite Pattern Table
+
+// VRAM address tables MC Screen 3 GRAPH2
+#define BASE15 0x0800 // Name Table
+#define BASE17 0x0000 // Pattern Table
+#define BASE18 0x1B00 // Sprite Attribute Table (OAM)
+#define BASE19 0x3800 // Sprite Pattern Table
+
+
+
+/* ----------------------------------------------------------------------------
+G2 BANKs addends
+Labels to facilitate the positioning of the tileset banks in G2 mode.
+---------------------------------------------------------------------------- */
 #define BANK0  0x0000
 #define BANK1  0x0800
 #define BANK2  0x1000
+
+
+
+/* ----------------------------------------------------------------------------
+Sprite Sizes
+---------------------------------------------------------------------------- */
+#define SPRITES8x8		0
+#define SPRITES16x16	1
 
 
 
@@ -93,8 +136,16 @@
 
 /* =============================================================================
  SCREEN
- Description: Sets the display mode of the screen. 
+ Description:	Sets the display mode of the screen.
+				T1 and G1 modes are initialized the map (Pattern Name Table) 
+				with value 0. 
+				In G2 and MC mode are initialized in an orderly manner (as in 
+				MSX BASIC) to be able to display an image directly.
  Input      : [char] number of screen mode
+				0 = Text mode 1
+				1 = Graphic 1
+				2 = Graphic 2
+				3 = MultiColor (MC)
  Output     : -
 ============================================================================= */
 void SCREEN(char mode);
@@ -113,9 +164,9 @@ void SetSpritesSize(char size);
 
 /* =============================================================================
  SetSpritesZoom
- Description: Set zoom type for the sprites.
- Input:       [char] zoom: false/0 = x1; true/1 = x2
- Output:      -
+ Description:	Set zoom type for the sprites.
+ Input:			[char] or [boolean] zoom: 0/false = x1; 1/true = x2
+ Output:		-
 ============================================================================= */
 void SetSpritesZoom(boolean zoom);
 

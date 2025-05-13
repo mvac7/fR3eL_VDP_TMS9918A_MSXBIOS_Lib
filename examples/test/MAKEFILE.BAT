@@ -3,14 +3,14 @@ REM MAKEFILE for 8/16K ROMs using SDCC compiler
 REM CFILENAME = Source name without extension
 REM ROMFILENAME = ROM file name without extension
 REM ROMSIZE = 2000 for 8KBytes ROM or 4000 for 16KBytes ROM
-SET CFILENAME=Test
+SET CFILENAME=Test_VDP
 SET ROMFILENAME=TESTVDP
 SET CODELOC=0x4020
 SET ROMSIZE=4000
 SET CRT=libs\crt_MSX816kROM4000.rel
 REM add paths from our objects files into LIBn variables
 REM don't erase empty variables
-SET LIB0=libs\VDP_TMS9918A_MSXROM.rel
+SET LIB0=libs\VDP_TMS9918A_MSXBIOS.rel
 SET LIB1=
 SET LIB2=
 SET LIB3=

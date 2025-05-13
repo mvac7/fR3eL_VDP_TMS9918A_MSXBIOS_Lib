@@ -1,16 +1,27 @@
 /* =============================================================================
-   Test VDP TMS9918A MSX ROM SDCC Lib
-   v1.2 (13/04/2018)
-   Description:
-    test SDCC TMS9918A MSX ROM Lib (VDP_TMS9918A)
-    source for ROM 32k and MSX-DOS (requires the corresponding CRT)
+Test VDP TMS9918A MSX BIOS Library (fR3eL Project)
+
+Version: 1.3 (1/12/2023)
+Author: mvac7/303bcn
+Architecture: MSX
+Format: 16K ROM
+Programming language: C and Z80 assembler
+Compiler: SDCC 4.4 or newer
+
+Description:
+Perform a test of the functions of the VDP TMS9918A library for MSX ROM 
+environment.
+
+History of versions:
+- v1.3 ( 1/12/2023) update to SDCC (4.3). For v1.5 library
+- v1.2 (13/ 4/2018)
 ============================================================================= */
 
 #include "../include/newTypes.h"
+#include "../include/msxSystemVariables.h"
 #include "../include/msxBIOS.h"
-#include "../include/msxSystemVars.h"
 
-#include "../include/VDP_TMS9918A_MSXROM.h"
+#include "../include/VDP_TMS9918A_MSXBIOS.h"
 
 
 
@@ -25,36 +36,37 @@
 
 //  definition of functions  ---------------------------------------------------
 void WAIT(uint cicles);
-char INKEY();
+char INKEY(void);
 void LOCATE(char x, char y);
+
 char PEEK(uint address);
 void POKE(uint address, char value);
 
-void CLS();
+void CLS(void);
 
 void VPRINT(char column, char line, char* text);  //print in screen 1 or 2
 void VPRINT0(char column, char line, char* text);
 void VPOKEARRAY(uint vaddr, char* text);
 
-void testSCREEN0();
-void testSCREEN1();
-void testSCREEN2();
-void testSCREEN3();
+void testSCREEN0(void);
+void testSCREEN1(void);
+void testSCREEN2(void);
+void testSCREEN3(void);
 
-void testFill();
-void testColor();
-void testVpeekVpoke();
+void testFill(void);
+void testColor(void);
+void testVpeekVpoke(void);
 
-void showTestCard();
+void showTestCard(void);
 
-void fillOrdered();
+void fillOrdered(void);
 
 
 
 // constants  ------------------------------------------------------------------
+const char text00[] = "MSX fR3eL SDCC Libraries Prj";
+const char text01[] = "Test TMS9918A MSXBIOS Lib"; 
 
-const char text01[] = "Test SDCC TMS9918A ROM Lib"; 
-const char text02[] = "v1.2 (13/04/2018)";
 const char text03[] = "Press any key to continue.";
 
 
@@ -125,8 +137,9 @@ void main(void)
   COLOR(15,4,4);
   SCREEN(1);
 
+  VPRINT(0,0,text00);
   VPRINT(0,1,text01);
-  VPRINT(0,2,text02);
+
   VPRINT(0,3,text03);
   
   LOCATE(0,4);
@@ -164,45 +177,40 @@ void main(void)
 /* =============================================================================
 One character input (waiting)
 ============================================================================= */
-char INKEY() __naked
+char INKEY(void) __naked
 {
 __asm 
   
-  call CHGET
-  ld   L,A
+  jp BIOS_CHGET
 
-  ret
 __endasm;
 }
 
 
 
 /* =============================================================================
-   Set a position the cursor in to the specified location
-   Posiciona el cursor hasta la ubicacion especificada
-   x(byte) - column (0 to 31 or 39)
-   y(byte) - line   (0 to 23)
+  LOCATE
+ 
+  Description: 
+            Moves the cursor to the specified location.
+  Input:    (char) Position X of the cursor. (0 to 31 or 79)
+            (char) Position Y of the cursor. (0 to 23)         
+  Output:   -
 ============================================================================= */
-void LOCATE(char x, char y)
+void LOCATE(char x, char y) __naked
 {
-x;y;
+x;
+y;
 __asm
-  push IX
-  ld   IX,#0
-  add  IX,SP
-  
-  ld   A,4(IX) ;x
-  inc  A       ;incrementa las posiciones para que se situen correctamente en la pantalla
-  ld   H,A
-  ld   A,5(IX) ;y
-  inc  A
-  ld   L,A
-     
-  call POSIT
-  
-  pop  IX
-__endasm;
 
+  inc  A
+  ld   H,A
+
+  inc  L
+  
+  jp BIOS_POSIT
+
+__endasm;
 }
 
 
@@ -221,43 +229,33 @@ char PEEK(uint address) __naked
 {
 address;
 __asm
-  push IX
-  ld   IX,#0
-  add  IX,SP
-    
-  ld   L,4(ix)
-  ld   H,5(ix)
-  ld   A,(hl)
 
-  ld   L,A
+  ld   A,(HL)
 
-  pop  IX
   ret
 __endasm;
 }
 
 
 
-void POKE(uint address, char value)
+void POKE(uint address,char value)
 {
 address;value;
 __asm
   push IX
   ld   IX,#0
-  add  IX,SP 
-    
-  ld   L,4(ix)
-  ld   H,5(ix)
-  ld   A,6(ix)
+  add  IX,SP
+  
+  ld   A,4(IX)
   ld   (HL),A
 
-  pop  IX  
+  pop  IX
 __endasm;
 }
 
 
 
-void CLS()
+void CLS(void)
 {
   FillVRAM(BASE10, 0x300, 32);
 }
@@ -294,7 +292,7 @@ void VPOKEARRAY(uint vaddr, char* text)
 
 
 // TEST SCREEN 0 ###############################################################
-void testSCREEN0()
+void testSCREEN0(void)
 {
   char i;
   
@@ -328,7 +326,7 @@ void testSCREEN0()
 
 
 // TEST SCREEN 1 ###############################################################
-void testSCREEN1()
+void testSCREEN1(void)
 {
   COLOR(15,5,1);    
   SCREEN(1);
@@ -362,7 +360,7 @@ void testSCREEN1()
 
 
 // TEST SCREEN 2 ###############################################################
-void testSCREEN2()
+void testSCREEN2(void)
 {
   COLOR(15,4,1);    
   SCREEN(2);
@@ -407,7 +405,7 @@ void testSCREEN2()
 
 
 // TEST SCREEN 3 ###############################################################
-void testSCREEN3()
+void testSCREEN3(void)
 {
   char value=0;
   uint i;
@@ -437,7 +435,7 @@ void testSCREEN3()
 
 
 // show tileset
-void fillOrdered()
+void fillOrdered(void)
 {
   char i;
   for(i=0;i<255;i++) VPOKE(BASE5+i,i);
@@ -446,7 +444,7 @@ void fillOrdered()
 
 
 // TEST COLOR  #################################################################
-void testColor()
+void testColor(void)
 {
   char i;
   char inkcol=15;
@@ -469,7 +467,7 @@ void testColor()
 
 // TEST VPEEK & VPOKE  #########################################################
 // copy a bloq using vpeek and vpoke
-void testVpeekVpoke()
+void testVpeekVpoke(void)
 {
   uint vaddr = BASE0;
   char i;
@@ -491,7 +489,7 @@ void testVpeekVpoke()
 
 // TEST FILL  ##################################################################
 //fill screen map with a characters range 
-void testFill()
+void testFill(void)
 {
   char i;
 
