@@ -30,16 +30,15 @@ using BIOS functions
 
 /* =============================================================================
 SCREEN
-Description:	Sets the display mode of the screen.
-				T1 and G1 modes are initialized the map (Pattern Name Table) 
-				with value 0. 
-				In G2 and MC mode are initialized in an orderly manner (as in 
-				MSX BASIC) to be able to display an image directly.
+Description:	
+		Initializes the display to one of the four standardized modes on the MSX.
+		Same as the SCREEN instruction in MSX BASIC.
+
 Input:	[char] number of screen mode
-			0 = Text mode 1
-			1 = Graphic 1
-			2 = Graphic 2
-			3 = MultiColor (MC)
+			0 = TextMode1
+			1 = Graphic1
+			2 = Graphic2
+			3 = MultiColor
 Output:	-
 ============================================================================= */
 void SCREEN(char mode) __naked
@@ -52,7 +51,7 @@ __asm
 	jr   NZ,setSCR
 
 	;screen 0 > 40 columns mode
-	ld   A,#39  ;default value
+	ld   A,#40  ;default value
 	ld   (#LINL40),A 
 
 	xor  A
@@ -128,7 +127,7 @@ Description: Set zoom type for the sprites.
 Input:	[char] or [boolean]/[switcher] zoom: 0/false/OFF = x1; 1/true/ON = x2
 Output:	-
 ============================================================================= */
-void SetSpritesZoom(boolean zoom) __naked
+void SetSpritesZoom(char zoom) __naked
 {
 zoom;	//A
 __asm  
@@ -187,11 +186,46 @@ __endasm;
 
 
 /* =============================================================================
- VPOKE
- Description: Writes a byte to the video RAM. 
- Input      : [unsigned int] VRAM address
-              [char] value
- Output     : - 
+CLS 
+Description: 
+		 Clear Screen
+		 Fill the Name Table with the value 0
+		 Does not clear the sprite attribute table (OAM)
+		 
+Input:	-
+Output:	-
+============================================================================= */
+void CLS(void) __naked
+{
+__asm	
+
+	ld   A,(#RG1SAV)	; --- read vdp(1) from mem
+	bit  4,A			;M1
+	jr   Z,CLS_NOTEXTMODE
+
+;TEXT mode
+	xor  A
+	ld   HL,#T1_MAP
+	ld   BC,#0x3C0
+	jp   BIOS_FILVRM
+	
+CLS_NOTEXTMODE:
+	xor  A
+	ld   HL,#G1_MAP
+	ld   BC,#0x300
+	jp   BIOS_FILVRM
+	
+__endasm;
+}
+
+
+
+/* =============================================================================
+VPOKE
+Description: Writes a byte to the video RAM. 
+Input:	[unsigned int] VRAM address
+		[char] value
+Output:	- 
 ============================================================================= */
 void VPOKE(unsigned int vaddr, char value)
 {
@@ -228,12 +262,12 @@ __endasm;
 
 
 /* =============================================================================
- FillVRAM                               
- Description: Fill a large area of the VRAM of the same byte.
- Input      : [unsigned int] address of VRAM
-              [unsigned int] blocklength
-              [char] Value to fill.
- Output     : - 
+FillVRAM                               
+Description: Fill a large area of the VRAM of the same byte.
+Input:	[unsigned int] address of VRAM
+		[unsigned int] blocklength
+		[char] Value to fill.
+Output:	- 
 ============================================================================= */
 void FillVRAM(unsigned int vaddr, unsigned int length, char value)
 {
@@ -327,7 +361,7 @@ char GetVDP(char reg) __naked
 {
 reg;	//A
 __asm 
-	ld   IY,#RG0SAV		;Mirror of VDP register 1
+	ld   IY,#RG0SAV		;Mirror of VDP register 0
 	ld   E,A
 	ld   D,#0
 	add  IY,DE

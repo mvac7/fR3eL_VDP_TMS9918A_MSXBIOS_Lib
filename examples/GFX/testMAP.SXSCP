@@ -1,0 +1,296 @@
+<msxOpenDocument app="tMSgfX devtool" version="0.9.16.0">
+  <info ProjectName="New Project" Name="New Subproject" Version="0" Author="" Group="" StartDate="638412192000000000" LastUpdate="638412192000000000">
+    <Description>
+    </Description>
+  </info>
+  <screens name="">
+    <screen name="screen" ScreenMode="1" SpriteSize="2" SpriteZoom="0" paletteID="0" ForegroundColor="15" BackgroundColor="4" MapID="49943051" OneBANK="True" TilesetA_ID="5252561" TilesetB_ID="5252561" TilesetC_ID="5252561" SpritesetID="0" OAMID="0" />
+  </screens>
+  <gfx>
+    <tileset id="5252561" name="MSX_font" mode="1" foregroundColor="15" backgroundColor="1">
+      <colors>F44FF4F4F4F4F4F4F4F4F4F4F4F4F4F4F4F4F4F4F4F4F4F4F4F4F44FF4F4F4F4</colors>
+      <tile index="0" gfxData="0000000000000000" />
+      <tile index="1" gfxData="3C42A581A599423C" />
+      <tile index="2" gfxData="3C7EDBFFFFDB663C" />
+      <tile index="3" gfxData="6CFEFEFE7C381000" />
+      <tile index="4" gfxData="10387CFE7C381000" />
+      <tile index="5" gfxData="103854FE54103800" />
+      <tile index="6" gfxData="10387CFEFE103800" />
+      <tile index="7" gfxData="0000003030000000" />
+      <tile index="8" gfxData="0000001818000000" />
+      <tile index="9" gfxData="C7BB7D7D7DBBC7FF" />
+      <tile index="10" gfxData="3844828282443800" />
+      <tile index="11" gfxData="F0FCFA867777778F" />
+      <tile index="12" gfxData="C7BBBBBBC7EF83EF" />
+      <tile index="13" gfxData="CFD7DBDBD7DF1F3F" />
+      <tile index="14" gfxData="C3DBC3DBDB1B23E7" />
+      <tile index="15" gfxData="EFABC711C7ABEFFF" />
+      <tile index="16" gfxData="1010107C10101010" />
+      <tile index="17" gfxData="101010FF00000000" />
+      <tile index="18" gfxData="000000FF10101010" />
+      <tile index="19" gfxData="101010F010101010" />
+      <tile index="20" gfxData="1010101F10101010" />
+      <tile index="21" gfxData="101010FF10101010" />
+      <tile index="22" gfxData="1010101010101010" />
+      <tile index="23" gfxData="000000FF00000000" />
+      <tile index="24" gfxData="0000001F10101010" />
+      <tile index="25" gfxData="000000F010101010" />
+      <tile index="26" gfxData="1010101F00000000" />
+      <tile index="27" gfxData="101010F000000000" />
+      <tile index="28" gfxData="8142241818244281" />
+      <tile index="29" gfxData="0102040810204080" />
+      <tile index="30" gfxData="8040201008040201" />
+      <tile index="31" gfxData="001010FF10100000" />
+      <tile index="32" gfxData="0000000000000000" />
+      <tile index="33" gfxData="2020202000002000" />
+      <tile index="34" gfxData="5050500000000000" />
+      <tile index="35" gfxData="5050F850F8505000" />
+      <tile index="36" gfxData="2078A07028F02000" />
+      <tile index="37" gfxData="C0C8102040981800" />
+      <tile index="38" gfxData="40A040A890986000" />
+      <tile index="39" gfxData="1020400000000000" />
+      <tile index="40" gfxData="1020404040201000" />
+      <tile index="41" gfxData="4020101010204000" />
+      <tile index="42" gfxData="20A8702070A82000" />
+      <tile index="43" gfxData="002020F820200000" />
+      <tile index="44" gfxData="0000000000202040" />
+      <tile index="45" gfxData="0000007800000000" />
+      <tile index="46" gfxData="0000000000606000" />
+      <tile index="47" gfxData="0000081020408000" />
+      <tile index="48" gfxData="708898A8C8887000" />
+      <tile index="49" gfxData="2060A0202020F800" />
+      <tile index="50" gfxData="708808106080F800" />
+      <tile index="51" gfxData="7088083008887000" />
+      <tile index="52" gfxData="10305090F8101000" />
+      <tile index="53" gfxData="F880E0100810E000" />
+      <tile index="54" gfxData="304080F088887000" />
+      <tile index="55" gfxData="F888102020202000" />
+      <tile index="56" gfxData="7088887088887000" />
+      <tile index="57" gfxData="7088887808106000" />
+      <tile index="58" gfxData="0000200000200000" />
+      <tile index="59" gfxData="0000200000202040" />
+      <tile index="60" gfxData="183060C060301800" />
+      <tile index="61" gfxData="0000F800F8000000" />
+      <tile index="62" gfxData="C06030183060C000" />
+      <tile index="63" gfxData="7088081020002000" />
+      <tile index="64" gfxData="70880868A8A87000" />
+      <tile index="65" gfxData="20508888F8888800" />
+      <tile index="66" gfxData="F04848704848F000" />
+      <tile index="67" gfxData="3048808080483000" />
+      <tile index="68" gfxData="E05048484850E000" />
+      <tile index="69" gfxData="F88080F08080F800" />
+      <tile index="70" gfxData="F88080F080808000" />
+      <tile index="71" gfxData="708880B888887000" />
+      <tile index="72" gfxData="888888F888888800" />
+      <tile index="73" gfxData="7020202020207000" />
+      <tile index="74" gfxData="3810101090906000" />
+      <tile index="75" gfxData="8890A0C0A0908800" />
+      <tile index="76" gfxData="808080808080F800" />
+      <tile index="77" gfxData="88D8A8A888888800" />
+      <tile index="78" gfxData="88C8C8A898988800" />
+      <tile index="79" gfxData="7088888888887000" />
+      <tile index="80" gfxData="F08888F080808000" />
+      <tile index="81" gfxData="70888888A8906800" />
+      <tile index="82" gfxData="F08888F0A0908800" />
+      <tile index="83" gfxData="7088807008887000" />
+      <tile index="84" gfxData="F820202020202000" />
+      <tile index="85" gfxData="8888888888887000" />
+      <tile index="86" gfxData="8888888850502000" />
+      <tile index="87" gfxData="888888A8A8D88800" />
+      <tile index="88" gfxData="8888502050888800" />
+      <tile index="89" gfxData="8888887020202000" />
+      <tile index="90" gfxData="F80810204080F800" />
+      <tile index="91" gfxData="7040404040407000" />
+      <tile index="92" gfxData="0000804020100800" />
+      <tile index="93" gfxData="7010101010107000" />
+      <tile index="94" gfxData="2050880000000000" />
+      <tile index="95" gfxData="000000000000F800" />
+      <tile index="96" gfxData="4020100000000000" />
+      <tile index="97" gfxData="0000700878887800" />
+      <tile index="98" gfxData="8080B0C888C8B000" />
+      <tile index="99" gfxData="0000708880887000" />
+      <tile index="100" gfxData="0808689888986800" />
+      <tile index="101" gfxData="00007088F8807000" />
+      <tile index="102" gfxData="102820F820202000" />
+      <tile index="103" gfxData="0000689898680870" />
+      <tile index="104" gfxData="8080F08888888800" />
+      <tile index="105" gfxData="2000602020207000" />
+      <tile index="106" gfxData="1000301010109060" />
+      <tile index="107" gfxData="4040485060504800" />
+      <tile index="108" gfxData="6020202020207000" />
+      <tile index="109" gfxData="0000D0A8A8A8A800" />
+      <tile index="110" gfxData="0000B0C888888800" />
+      <tile index="111" gfxData="0000708888887000" />
+      <tile index="112" gfxData="0000B0C8C8B08080" />
+      <tile index="113" gfxData="0000689898680808" />
+      <tile index="114" gfxData="0000B0C880808000" />
+      <tile index="115" gfxData="00007880F008F000" />
+      <tile index="116" gfxData="4040F04040483000" />
+      <tile index="117" gfxData="0000909090906800" />
+      <tile index="118" gfxData="0000888888502000" />
+      <tile index="119" gfxData="000088A8A8A85000" />
+      <tile index="120" gfxData="0000885020508800" />
+      <tile index="121" gfxData="0000888898680870" />
+      <tile index="122" gfxData="0000F8102040F800" />
+      <tile index="123" gfxData="1820204020201800" />
+      <tile index="124" gfxData="2020200020202000" />
+      <tile index="125" gfxData="C02020102020C000" />
+      <tile index="126" gfxData="40A8100000000000" />
+      <tile index="127" gfxData="00002050F8000000" />
+      <tile index="128" gfxData="7088808088702060" />
+      <tile index="129" gfxData="9000009090906800" />
+      <tile index="130" gfxData="10207088F8807000" />
+      <tile index="131" gfxData="2050700878887800" />
+      <tile index="132" gfxData="4800700878887800" />
+      <tile index="133" gfxData="2010700878887800" />
+      <tile index="134" gfxData="2000700878887800" />
+      <tile index="135" gfxData="0070808080701060" />
+      <tile index="136" gfxData="20507088F8807000" />
+      <tile index="137" gfxData="50007088F8807000" />
+      <tile index="138" gfxData="20107088F8807000" />
+      <tile index="139" gfxData="5000006020207000" />
+      <tile index="140" gfxData="2050006020207000" />
+      <tile index="141" gfxData="4020006020207000" />
+      <tile index="142" gfxData="5000205088F88800" />
+      <tile index="143" gfxData="2000205088F88800" />
+      <tile index="144" gfxData="1020F880F080F800" />
+      <tile index="145" gfxData="00006C127E906E00" />
+      <tile index="146" gfxData="3E50909CF0909E00" />
+      <tile index="147" gfxData="6090006090906000" />
+      <tile index="148" gfxData="9000006090906000" />
+      <tile index="149" gfxData="4020006090906000" />
+      <tile index="150" gfxData="40A000A0A0A05000" />
+      <tile index="151" gfxData="402000A0A0A05000" />
+      <tile index="152" gfxData="90009090B05010E0" />
+      <tile index="153" gfxData="5000708888887000" />
+      <tile index="154" gfxData="5000888888887000" />
+      <tile index="155" gfxData="2020788080782020" />
+      <tile index="156" gfxData="182420F820E25C00" />
+      <tile index="157" gfxData="885020F820F82000" />
+      <tile index="158" gfxData="C0A0A0C89C88888C" />
+      <tile index="159" gfxData="182020F820202040" />
+      <tile index="160" gfxData="1020700878887800" />
+      <tile index="161" gfxData="1020006020207000" />
+      <tile index="162" gfxData="2040006090906000" />
+      <tile index="163" gfxData="2040009090906800" />
+      <tile index="164" gfxData="50A000A0D0909000" />
+      <tile index="165" gfxData="285000C8A8988800" />
+      <tile index="166" gfxData="00700878887800F8" />
+      <tile index="167" gfxData="00609090906000F0" />
+      <tile index="168" gfxData="2000204080887000" />
+      <tile index="169" gfxData="000000F880800000" />
+      <tile index="170" gfxData="000000F808080000" />
+      <tile index="171" gfxData="848890A85484081C" />
+      <tile index="172" gfxData="848890A858A83C08" />
+      <tile index="173" gfxData="2000002020202000" />
+      <tile index="174" gfxData="0000244890482400" />
+      <tile index="175" gfxData="0000904824489000" />
+      <tile index="176" gfxData="2850205088F88800" />
+      <tile index="177" gfxData="2850700878887800" />
+      <tile index="178" gfxData="2850007020207000" />
+      <tile index="179" gfxData="2850002020207000" />
+      <tile index="180" gfxData="2850007088887000" />
+      <tile index="181" gfxData="50A0006090906000" />
+      <tile index="182" gfxData="2850008888887000" />
+      <tile index="183" gfxData="50A000A0A0A05000" />
+      <tile index="184" gfxData="FC484848E8085020" />
+      <tile index="185" gfxData="0050005050501020" />
+      <tile index="186" gfxData="C044C854EC549E04" />
+      <tile index="187" gfxData="10A8400000000000" />
+      <tile index="188" gfxData="0020508850200000" />
+      <tile index="189" gfxData="8810204080280000" />
+      <tile index="190" gfxData="7CA8A86828282800" />
+      <tile index="191" gfxData="3840304848300870" />
+      <tile index="192" gfxData="000000000000FFFF" />
+      <tile index="193" gfxData="F0F0F0F00F0F0F0F" />
+      <tile index="194" gfxData="0000FFFFFFFFFFFF" />
+      <tile index="195" gfxData="FFFF000000000000" />
+      <tile index="196" gfxData="0000003C3C000000" />
+      <tile index="197" gfxData="FFFFFFFFFFFF0000" />
+      <tile index="198" gfxData="C0C0C0C0C0C0C0C0" />
+      <tile index="199" gfxData="0F0F0F0FF0F0F0F0" />
+      <tile index="200" gfxData="FCFCFCFCFCFCFCFC" />
+      <tile index="201" gfxData="0303030303030303" />
+      <tile index="202" gfxData="3F3F3F3F3F3F3F3F" />
+      <tile index="203" gfxData="1122448811224488" />
+      <tile index="204" gfxData="8844221188442211" />
+      <tile index="205" gfxData="FE7C381000000000" />
+      <tile index="206" gfxData="0000000010387CFE" />
+      <tile index="207" gfxData="80C0E0F0E0C08000" />
+      <tile index="208" gfxData="0103070F07030100" />
+      <tile index="209" gfxData="FF7E3C18183C7EFF" />
+      <tile index="210" gfxData="81C3E7FFFFE7C381" />
+      <tile index="211" gfxData="F0F0F0F000000000" />
+      <tile index="212" gfxData="000000000F0F0F0F" />
+      <tile index="213" gfxData="0F0F0F0F00000000" />
+      <tile index="214" gfxData="00000000F0F0F0F0" />
+      <tile index="215" gfxData="3333CCCC3333CCCC" />
+      <tile index="216" gfxData="FFDFDFAFAF7707FF" />
+      <tile index="217" gfxData="DFDF8FDF8FDFDFFF" />
+      <tile index="218" gfxData="FFFFFFAF7757AFFF" />
+      <tile index="219" gfxData="0000000000000000" />
+      <tile index="220" gfxData="FFFFFFFF00000000" />
+      <tile index="221" gfxData="0F0F0F0F0F0F0F0F" />
+      <tile index="222" gfxData="F0F0F0F0F0F0F0F0" />
+      <tile index="223" gfxData="00000000FFFFFFFF" />
+      <tile index="224" gfxData="0000689090906800" />
+      <tile index="225" gfxData="30484870484870C0" />
+      <tile index="226" gfxData="F888808080808000" />
+      <tile index="227" gfxData="F850505050509800" />
+      <tile index="228" gfxData="F88840204088F800" />
+      <tile index="229" gfxData="0000789090906000" />
+      <tile index="230" gfxData="0050505050688080" />
+      <tile index="231" gfxData="0050A02020202000" />
+      <tile index="232" gfxData="F82070A8A87020F8" />
+      <tile index="233" gfxData="205088F888502000" />
+      <tile index="234" gfxData="708888885050D800" />
+      <tile index="235" gfxData="3040402050505020" />
+      <tile index="236" gfxData="00000050A8A85000" />
+      <tile index="237" gfxData="0870A8A8A8708000" />
+      <tile index="238" gfxData="384080F880403800" />
+      <tile index="239" gfxData="7088888888888800" />
+      <tile index="240" gfxData="00F800F800F80000" />
+      <tile index="241" gfxData="2020F8202000F800" />
+      <tile index="242" gfxData="C0300830C000F800" />
+      <tile index="243" gfxData="186080601800F800" />
+      <tile index="244" gfxData="1028202020202020" />
+      <tile index="245" gfxData="202020202020A040" />
+      <tile index="246" gfxData="002000F800200000" />
+      <tile index="247" gfxData="0050A00050A00000" />
+      <tile index="248" gfxData="0018242418000000" />
+      <tile index="249" gfxData="0030787830000000" />
+      <tile index="250" gfxData="0000000030000000" />
+      <tile index="251" gfxData="3E202020A0602000" />
+      <tile index="252" gfxData="A050505000000000" />
+      <tile index="253" gfxData="40A02040E0000000" />
+      <tile index="254" gfxData="0038383838383800" />
+      <tile index="255" gfxData="FFFFFFFFFFFFFFFF" />
+    </tileset>
+  </gfx>
+  <maps>
+    <SourceCodeFormat LanguageCode="1" NumeralSystem="7" LineSizeIndex="4" CompressType="0" DataLabel="New MapB(1)">
+      <Assembler DataByteCommand="db" DataWordCommand="dw" />
+      <C UnsignedByteTypeDef="const char" SignedByteTypeDef="const signed char" />
+      <BASIC commentInstruction="REM" dataInstruction="DATA" FirstLineNumber="1000" Increment="10" remove0="False" />
+    </SourceCodeFormat>
+    <map id="49943051" name="New MapB(1)" maptype="0" tiletype="0" width="32" height="17" paletteID="0" tileset="5252561">
+      <line index="0">002020205F5F5F5F5F20202020205F5F5F5F5F5F5F5F5F5F5F5F20205F5F5F00</line>
+      <line index="1">0020202F20202020205C2020202F20205F5F5F5F5F2F5C2020205C2F20202F00</line>
+      <line index="2">00202F20205C202F20205C20205C5F5F5F5F20205C20205C20202020202F2000</line>
+      <line index="3">002F2020202059202020205C202F202020202020205C202F20202020205C2000</line>
+      <line index="4">005C5F5F5F5F215F5F20202F2F5F5F5F5F5F5F20202F2F5F5F5F2F5C20205C00</line>
+      <line index="5">0020202020202020205C2F20202020202020205C2F202020202020205C5F2F00</line>
+      <line index="6">2018171717171717171717171717171717171717171717171717171717171920</line>
+      <line index="7">201656445020544D533939313841204D5358204C696272617279202020201620</line>
+      <line index="8">20164578616D706C6520736F757263652E2E2E20202020202020202020201620</line>
+      <line index="9">2016202020202020202020202020202020202020202020202020202020201620</line>
+      <line index="10">20166438383838383862202E38386220206438382E202E64383838382E201620</line>
+      <line index="11">2016202060383827202020383827596264506038382038382720205950201620</line>
+      <line index="12">201620202038382020202038382020383820203838206038626F2E2020201620</line>
+      <line index="13">201620202038382020202038382020383820203838202020605938622E201620</line>
+      <line index="14">2016202020383820202020383820203838202038382064622020203844201620</line>
+      <line index="15">2016202020595020202020595020205950202059502060383838385927201620</line>
+      <line index="16">201A171717171717171717171717171717171717171717171717171717171B20</line>
+    </map>
+  </maps>
+</msxOpenDocument>

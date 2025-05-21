@@ -12,38 +12,36 @@
 - [2 Requirements](#2-Requirements)
 - [3 Definitions](#3-Definitions)
     - [3.1 VDP Ports](#31-VDP-Ports)
-	- [3.2 Screen Modes](#32-Screen-Modes)
-	- [3.3 Sprite Sizes](#33-Sprite-Sizes)
-	- [3.4 Color Names](#34-Color-Names)
-	- [3.5 VDP base address tables](#35-VDP-base-address-tables)
-	- [3.6 VDP base address tables 2 (BASE type)](#36-VDP-base-address-tables-2-(BASE-type))
-	- [3.7 G2 Tileset Bank addends](#37-G2-Tileset-Bank-addends)
-
-
+	- [3.2 VDP Registers](#32-VDP-Registers)
+	- [3.3 Screen Modes](#33-Screen-Modes)
+	- [3.4 Sprite Sizes](#34-Sprite-Sizes)
+	- [3.5 Color Names](#35-Color-Names)
+	- [3.6 VDP base address tables](#36-VDP-base-address-tables)
+	- [3.7 VDP base address tables 2 (BASE type)](#37-VDP-base-address-tables-2-(BASE-type))
+	- [3.8 G2 Tileset Bank addends](#38-G2-Tileset-Bank-addends)
 - [4 Functions](#4-Functions)
 	- [4.1 SCREEN](#41-SCREEN)
 	- [4.2 SetSpritesSize](#42-SetSpritesSize)
-	- [4.3 SetSpritesZoom](#43-SetSpritesZoom)
-	
-	- [4.4 CLS](#44-CLS)
-	
+	- [4.3 SetSpritesZoom](#43-SetSpritesZoom)	
+	- [4.4 CLS](#44-CLS)	
 	- [4.5 ClearSprites](#45-ClearSprites)
 	- [4.6 COLOR](#46-COLOR)
-
-	- [4.9 VPOKE](#49-VPOKE)
-	- [4.11 VPEEK](#411-VPEEK)
-	- [4.13 FillVRAM](#413-FillVRAM)
-	- [4.14 CopyToVRAM](#414-CopyToVRAM)
-	- [4.15 CopyFromVRAM](#415-CopyFromVRAM)
-	- [4.16 GetVDP](#416-GetVDP)
-	- [4.17 SetVDP](#417-SetVDP)
+	- [4.7 VPOKE](#47-VPOKE)
+	- [4.8 VPEEK](#48-VPEEK)
+	- [4.9 FillVRAM](#49-FillVRAM)
+	- [4.10 CopyToVRAM](#410-CopyToVRAM)
+	- [4.11 CopyFromVRAM](#411-CopyFromVRAM)
+	- [4.12 GetVDP](#412-GetVDP)
+	- [4.13 SetVDP](#413-SetVDP)
 - [5 Examples](#5-Examples)
-- [6 Documentation](#6-Documentation)
-
+- [6 References](#6-References)
 
 <br/>
 
 ---
+
+
+
 
 ## 1 Description
 
@@ -60,6 +58,9 @@ This library is part of the [MSX fR3eL Project](https://github.com/mvac7/SDCC_MS
 
 ---
 
+
+
+
 ## 2 Requirements
 
 - [Small Device C Compiler (SDCC) v4.4](http://sdcc.sourceforge.net/)
@@ -68,6 +69,9 @@ This library is part of the [MSX fR3eL Project](https://github.com/mvac7/SDCC_MS
 <br/>
 
 ---
+
+
+
 
 ## 3 Definitions
 
@@ -80,7 +84,22 @@ VDPSTATUS	| 0x99
 
 <br/>
 
-### 3.2 Screen Modes
+### 3.2 VDP Registers
+
+Label	| Value
+:---	| :---
+VDP_Mode0		| 0
+VDP_Mode1		| 1
+VDP_BGmap		| 2
+VDP_BGcolors	| 3
+VDP_BGtiles		| 4
+VDP_OBJattr		| 5
+VDP_OBJtiles	| 6
+VDP_Color		| 7
+
+<br/>
+
+### 3.3 Screen Modes
 
 To use them in the SCREEN(mode) function.
 
@@ -93,7 +112,7 @@ MULTICOLOR	| 3		| SCREEN 3	| Multicolor mode 64x48 blocks
 
 <br/>
 
-### 3.3 Sprite Sizes
+### 3.4 Sprite Sizes
 
 Label			| Value
 :---			| ---:
@@ -102,7 +121,7 @@ SPRITES16x16	| 1
 
 <br/>
 
-### 3.4 Color Names
+### 3.5 Color Names
 
 Label		| Value
 :---		| ---:
@@ -125,7 +144,7 @@ WHITE		| 15
 
 <br/>
 
-### 3.5 VDP base address tables 1
+### 3.6 VDP base address tables 1
 Definition of the video memory addresses where the different graphic data tables are located.
 
 <table>
@@ -158,7 +177,7 @@ SPR_PAT	| 0x3800	| Sprite Pattern Table
 <br/>
 
 
-### 3.6 VDP base address tables 2 (BASE type)
+### 3.7 VDP base address tables 2 (BASE type)
 
 Definition of the video memory addresses where the different graphic data tables are located.
 Based on the BASE instruction of MSX BASIC.
@@ -200,7 +219,7 @@ BASE19	| 0x3800	| Sprite Pattern Table
 
 <br/>
 
-### 3.7 G2 Tileset Bank addends
+### 3.8 G2 Tileset Bank addends
 Labels to facilitate the positioning of the tileset banks in G2 mode.
 
 Label	| Value
@@ -211,44 +230,44 @@ BANK2	| 0x1000
 
 <br/>
 
+#### Example:
+```c
+	//Copy a tileset to the three banks of the Screen2 graphic mode
+	CopyToVRAM(TilesetDATA_PAT,BASE12+BANK0,0x800);
+	CopyToVRAM(TilesetDATA_PAT,BASE12+BANK1,0x800);
+	CopyToVRAM(TilesetDATA_PAT,BASE12+BANK2,0x800);
+```
+
+<br/>
+
 ---
 
-## 4 Functions
 
+
+
+## 4 Functions
 
 #### 4.1 SCREEN
 
 <table>
 <tr><th colspan=3 align="left">SCREEN</th></tr>
-<tr><td colspan=3>Sets the display mode of the screen.</td></tr>
+<tr><td colspan=3>Initializes the display to one of the four standardized modes on the MSX.<br/>Same as the SCREEN instruction in MSX BASIC.</td></tr>
 <tr><th>Function</th><td colspan=2>SCREEN(char mode)<td></tr>
 <tr><th>Input</th><td>`char`</td><td>Screen mode (0-3)</td></tr>
 <tr><th>Output</th><td colspan=2>-</td></tr>
-<tr><th rowspan=2>Examples:</th><td colspan=2><pre>SCREEN(2);</pre></td></tr>
-<tr><td colspan=2><pre>SCREEN(TXT40);</pre></td></tr>
 </table>
 
-It is important to know that the SCREEN function does not behave exactly like the functions of the BIOS with the same purpose (CHGMOD, INITXT, INIGRP, etc.).
-SCREEN does not initialize the entire VRAM and does not set the patterns from the MSX font in text modes (T1 and G1 modes). 
+##### Examples:
 
-This function changes to the indicated screen mode, writes to the registers of the VDP the same configuration of the different tables used in the MSX System.
+```c
+	SCREEN(2);
+```
 
+```c
+	SCREEN(GRAPHIC1);
+```
 
-
- and fill the Name Table and the Sprite attribute table with the value 0 and the Y position for hiding (209).
-
-
-
-Due to the fact that the VDP registers can not be consulted, the writing of the values of these has been included in the system variables used by the MSX. 
-In the case of wanting to adapt this library to another computer, they would have to be deleted or placed in the memory area that is available.
-
-The colors of ink and background of the COLOR function are only useful in text mode, since the BIOS uses these values to initialize the color table in the screen startup routines and this library does not. 
-In all other modes it is useful to adjust the border color of the screen.
-
-
-- T1 and G1 modes are initialized the map (Pattern Name Table) with value 0. 
-- In G2 and MC mode are initialized in an orderly manner (as in MSX BASIC) to be able to display an image directly.
-
+<br/>
 
 #### 4.2 SetSpritesSize
 
@@ -258,10 +277,19 @@ In all other modes it is useful to adjust the border color of the screen.
 <tr><th>Function</th><td colspan=2>SetSpritesSize(char size)</td></tr>
 <tr><th>Input</th><td>`char`</td><td>Size (0=8x8; 1=16x16)</td></tr>
 <tr><th>Output</th><td colspan=2>-</td></tr>
-<tr><th>Example:</th><td colspan=2><pre>SCREEN(2);<br/>SetSpritesSize(1);</pre></td></tr>
 </table>
 
+##### Examples:
 
+```c
+	SetSpritesSize(0);	//8x8
+```
+
+```c
+	SetSpritesSize(SPRITES16x16);
+```
+
+<br/>
 
 #### 4.3 SetSpritesZoom
 
@@ -269,11 +297,24 @@ In all other modes it is useful to adjust the border color of the screen.
 <tr><th colspan=3 align="left">SetSpritesZoom</th></tr>
 <tr><td colspan=3>Set zoom type for the sprites.</td></tr>
 <tr><th>Function</th><td colspan=2>SetSpritesZoom(char zoom)</td></tr>
-<tr><th>Input</th><td>`char`</td><td>Zoom (0=x1; 1=x2 or `true` for zoom x2)</td></tr>
+<tr><th>Input</th><td>`char` or `boolean` or `switcher`</td><td>zoom: 0/false/OFF = x1; 1/true/ON = x2</td></tr>
 <tr><th>Output</th><td colspan=2>-</td></tr>
-<tr><th rowspan=2>Example:</th><td colspan=2><pre>SCREEN(GRAPHIC1);<br/>SetSpritesSize(SPRITES16x16);SetSpritesZoom(1);</pre></td></tr>
-<tr><td colspan=2><pre>SetSpritesZoom(true);</pre></td></tr>
 </table>
+
+**Note:** To use `boolean` or `switcher` types, you must include the "newTypes.h" header in your source, which you will find in the main fR3eL repository.
+
+##### Examples:
+
+```c
+	SetSpritesZoom(false);
+```
+
+```c
+	SetSpritesSize(SPRITES16x16);
+	SetSpritesZoom(ON);
+```
+
+<br/>
 
 
 #### 4.4 CLS
@@ -284,10 +325,15 @@ In all other modes it is useful to adjust the border color of the screen.
 <tr><th>Function</th><td colspan=2>CLS()</td></tr>
 <tr><th>Input</th><td colspan=2>-</td></tr>
 <tr><th>Output</th><td colspan=2>-</td></tr>
-<tr><th>Example:</th><td colspan=2><pre>CLS();</pre></td></tr>
 </table>
 
+##### Example:
 
+```c
+	CLS();
+```
+
+<br/>
 
 #### 4.5 ClearSprites
 
@@ -297,10 +343,16 @@ In all other modes it is useful to adjust the border color of the screen.
 <tr><th>Function</th><td colspan=2>ClearSprites()</td></tr>
 <tr><th>Input</th><td colspan=2>-</td></tr>
 <tr><th>Output</th><td colspan=2>-</td></tr>
-<tr><th>Example:</th><td colspan=2><pre>ClearSprites();</pre></td></tr>
 </table>
 
+##### Example:
 
+```c
+	ClearSprites();
+	CLS();
+```
+
+<br/>
 
 #### 4.6 COLOR
 
@@ -316,48 +368,23 @@ In GRAPHIC1, GRAPHIC2 and Multicolor modes, only the border color has an instant
 <tr><td>`char`</td><td>Background color (0-15)</td></tr>
 <tr><td>`char`</td><td>Border color (0-15)</td></tr>
 <tr><th>Output</th><td colspan=2>-</td></tr>
-<tr><th rowspan=2>Examples:</th><td colspan=2><pre>COLOR(1,15,14);</pre></td></tr>
-<tr><td colspan=2><pre>COLOR(GRAY,DARK_BLUE,LIGHT_BLUE);<br/>SCREEN(GRAPHIC1);</pre></td></tr>
 </table>
 
+##### Examples:
 
+```c
+	COLOR(1,14,15);
+	SCREEN(0);
+```
 
-#### 4.7 SetVRAMtoREAD
+```c
+	COLOR(GRAY,DARK_BLUE,LIGHT_BLUE);
+	SCREEN(GRAPHIC1);
+```
 
-<table>
-<tr><th colspan=3 align="left">SetVRAMtoREAD</th></tr>
-<tr><td colspan=3>Enable VDP to read (Similar to MSX BIOS SETRD)</td></tr>
-<tr><th>Function</th><td colspan=2>SetVRAMtoREAD(unsigned int VRAMaddr)<td></tr>
-<tr><th>Input</th><td>`unsigned int`</td><td>VRAM address</td></tr>
-<tr><th>Output</th><td colspan=2>-</td></tr>
-<tr><th>Example:</th><td colspan=2><pre>
-char sprY,sprX;<br/>
-SetVRAMtoREAD(SPR_OAM);<br/>
-sprY=FastVPEEK();<br/>
-sprX=FastVPEEK();
-</pre></td></tr>
-</table>
+<br/>
 
-
-
-#### 4.8 SetVRAMtoWRITE
-
-<table>
-<tr><th colspan=3 align="left">SetVRAMtoWRITE</th></tr>
-<tr><td colspan=3>Enable VDP to write (Similar to MSX BIOS SETWRT)</td></tr>
-<tr><th>Function</th><td colspan=2>SetVRAMtoWRITE(unsigned int VRAMaddr)<td></tr>
-<tr><th>Input</th><td>`unsigned int`</td><td>VRAM address</td></tr>
-<tr><th>Output</th><td colspan=2>-</td></tr>
-<tr><th>Example:</th><td colspan=2><pre>
-SetVRAMtoWRITE(SPR_OAM);<br/>
-FastVPOKE(208);<br/>
-FastVPOKE(0);
-</pre></td></tr>
-</table>
-
-
-
-#### 4.9 VPOKE
+#### 4.7 VPOKE
 
 <table>
 <tr><th colspan=3 align="left">VPOKE</th></tr>
@@ -366,7 +393,6 @@ FastVPOKE(0);
 <tr><th rowspan=2>Input</th><td>`char`</td><td>Value</td></tr>
 <tr><td>`unsigned int`</td><td>VRAM address</td></tr>
 <tr><th>Output</th><td colspan=2>-</td></tr>
-<tr><th>Example:</th><td colspan=2><pre>VPOKE(1,0x1000);</pre></td></tr>
 </table>
 
 
@@ -374,28 +400,16 @@ FastVPOKE(0);
 | :---		|
 | The order of the values has been reversed to optimize the function taking advantage of the new SDCC Z80 calling conventions. |
 
+##### Example:
 
+```c
+	VPOKE(1,0x1000);
+	VPOKE(0xFF,0x1001);
+```
 
-#### 4.10 FastVPOKE
+<br/>
 
-<table>
-<tr><th colspan=3 align="left">FastVPOKE</th></tr>
-<tr><td colspan=3>Writes a value to the next video RAM position.<br/> 
-Requires the VDP to be in write mode, either by previously using VPOKE or SetVRAMtoWRITE functions.</td></tr>
-<tr><th>Function</th><td colspan=2>FastVPOKE(char value)<td></tr>
-<tr><th rowspan=1>Input</th><td>`char`</td><td>Value</td></tr>
-<tr><th>Output</th><td colspan=2>-</td></tr>
-<tr><th>Example:</th><td colspan=2><pre>
-char i;<br/>
-SCREEN(GRAPHIC1);<br/>
-SetVRAMtoWRITE(G1_COL);<br/>
-for(i=0;i<255;i++) FastVPOKE(0x51);
-</pre></td></tr>
-</table>
-
-
-
-#### 4.11 VPEEK
+#### 4.8 VPEEK
 
 <table>
 <tr><th colspan=3 align="left">VPEEK</th></tr>
@@ -403,35 +417,18 @@ for(i=0;i<255;i++) FastVPOKE(0x51);
 <tr><th>Function</th><td colspan=2>VPEEK(unsigned int VRAMaddr)<td></tr>
 <tr><th>Input</th><td>`unsigned int`</td><td>VRAM address</td></tr>
 <tr><th>Output</th><td>`char`</td><td>Value</td></tr>
-<tr><th>Example:</th><td colspan=2><pre>
-char value;<br/>
-value=VPEEK(SPR_OAM);
-</pre></td></tr>
 </table>
 
+##### Example:
 
+```c
+	char value;<br/>
+	value=VPEEK(SPR_OAM);
+```
 
-#### 4.12 FastVPEEK
+<br/>
 
-<table>
-<tr><th colspan=3 align="left">FastVPEEK</th></tr>
-<tr><td colspan=3>Reads the next video RAM value.<br/>Requires the VDP to be in read mode, either by previously using VPEEK or SetVRAMtoREAD functions.</td></tr>
-<tr><th>Function</th><td colspan=2>FastVPEEK()<td></tr>
-<tr><th>Input</th><td colspan=2>-</td></tr>
-<tr><th>Output</th><td>`char`</td><td>Value</td></tr>
-<tr><th>Example:</th><td colspan=2><pre>
-char sprY,sprX,sprPattern,sprColor;<br/>
-unsigned int vaddr = SPR_OAM + (10*4); //calculates VRAM address for sprite plane 10 
-sprY=VPEEK(SPR_OAM);<br/>
-sprX=FastVPEEK();<br/>
-sprPattern=FastVPEEK();<br/>
-sprColor=FastVPEEK();
-</pre></td></tr>
-</table>
-
-
-
-#### 4.13 FillVRAM
+#### 4.9 FillVRAM
 
 <table>
 <tr><th colspan=3 align="left">FillVRAM</th></tr>
@@ -441,12 +438,17 @@ sprColor=FastVPEEK();
 <tr><td>`unsigned int`</td><td>blocklength</td></tr>
 <tr><td>`char`</td><td>Value</td></tr>
 <tr><th>Output</th><td colspan=2>-</td></tr>
-<tr><th>Example:</th><td colspan=2><pre>FillVRAM(G1_MAP,0x300,32);</pre></td></tr>
 </table>
 
+##### Example:
 
+```c
+	FillVRAM(G1_MAP,0x300,32);
+```
 
-#### 4.14 CopyToVRAM
+<br/>
+
+#### 4.10 CopyToVRAM
 
 <table>
 <tr><th colspan=3 align="left">CopyToVRAM</th></tr>
@@ -456,12 +458,19 @@ sprColor=FastVPEEK();
 <tr><td>`unsigned int`</td><td>VRAM address</td></tr>
 <tr><td>`unsigned int`</td><td>blocklength</td></tr>
 <tr><th>Output</th><td colspan=2>-</td></tr>
-<tr><th>Example:</th><td colspan=2><pre>CopyToVRAM(0x1BBF,G1_PAT,0x800);</pre></td></tr>
 </table>
 
+##### Example:
 
+```c
+	const char test_MAP[]={0x00,0x20,0x20,0x20,0x5F,0x5F,0x5F,0x5F,0x5F,0x20,0x20,0x20,0x20,0x20,
+	0x5F,0x5F,0x5F,0x5F,0x5F,0x5F,0x5F,0x5F,0x5F,0x5F,0x5F,0x5F,0x20,0x20,0x5F,0x5F,0x5F,0x00};
+	CopyToVRAM((unsigned int) test_MAP,G1_MAP,32);
+```
 
-#### 4.15 CopyFromVRAM
+<br/>
+
+#### 4.11 CopyFromVRAM
 
 <table>
 <tr><th colspan=3 align="left">CopyFromVRAM</th></tr>
@@ -471,12 +480,17 @@ sprColor=FastVPEEK();
 <tr><td>`unsigned int`</td><td>RAM address</td></tr>
 <tr><td>`unsigned int`</td><td>blocklength</td></tr>
 <tr><th>Output</th><td colspan=2>-</td></tr>
-<tr><th>Example:</th><td colspan=2><pre>CopyFromVRAM(G1_MAP,0xD000,32*24);</pre></td></tr>
 </table>
 
+##### Example:
 
+```c
+	CopyFromVRAM(SPR_OAM,0xD000,32*4);
+```
 
-#### 4.16 GetVDP
+<br/>
+
+#### 4.12 GetVDP
 
 <table>
 <tr><th colspan=3 align="left">GetVDP</th></tr>
@@ -484,11 +498,19 @@ sprColor=FastVPEEK();
 <tr><th>Function</th><td colspan=2>GetVDP(char register)<td></tr>
 <tr><th>Input</th><td>`char`</td><td>VDP register (0-7)</td></tr>
 <tr><th>Output</th><td>`char`</td><td>Value</td></tr>
-<tr><th>Example:</th><td colspan=2><pre>char A=GetVDP(1);<br/>SetVDP(1,A & 0b10111111); //BLK Disable</pre></td></tr>
 </table>
 
+##### Example:
 
-#### 4.17 SetVDP
+```c
+	char A=GetVDP(VDP_Mode1);
+	SetVDP(VDP_Mode1,A & 0b10111111); //BLK Disable
+```
+
+<br/>
+
+
+#### 4.13 SetVDP
 
 <table>
 <tr><th colspan=3 align="left">SetVDP</th></tr>
@@ -497,22 +519,26 @@ sprColor=FastVPEEK();
 <tr><th rowspan=2>Input</th><td>`char`</td><td>VDP register (0-7)</td></tr>
 <tr><td>`char`</td><td>value</td></tr>
 <tr><th>Output</th><td colspan=2>-</td></tr>
-<tr><th rowspan=2>Example:</th><td colspan=2><pre>char A=GetVDP(1);<br/>SetVDP(1,A | 0b01000000); //BLK Enable</pre></td></tr>
 </table>
 
+##### Example:
+
+```c
+	char A=GetVDP(VDP_Mode1);
+	SetVDP(VDP_Mode1,A | 0b01000000); //BLK Enable
+```
 
 <br/>
 
 ---
 
+
+
+
+
+
 ## 5 Examples
  
-The project includes several examples that I have used to test the library and that can help you learn how to use this library.
-
-You can find them in this project in the [`../examples/`](examples/) folder.
-
-<br/>
-
 ### Example 1
 
 This example is very simple. Shows a use case for initializing a screen in graphics mode 1.
@@ -522,18 +548,18 @@ This example is very simple. Shows a use case for initializing a screen in graph
 
 ```c
 /* =============================================================================
-	Example01.c
-	Version: 1.0 (20/January/2024)
-	Architecture: MSX
-	Format: MSX ROM 8k
-	Programming language: C and Z80 assembler
-	Compiler: SDCC 4.3 or newer
+Example01.c
+Version: 1.0 (20/January/2024)
+Architecture: MSX
+Format: MSX ROM 8k
+Programming language: C and Z80 assembler
+Compiler: SDCC 4.3 or newer
 
-	Description:
-		Test VDP TMS9918A MSX Library (fR3eL Project)
-	 
-	Histoy of versions:
-	- v1.0 (20/January/2024) First version.
+Description:
+	Test VDP TMS9918A MSX Library (fR3eL Project)
+ 
+Histoy of versions:
+- v1.0 (20/January/2024) First version.
 ============================================================================= */
 
 #include "VDP_TMS9918A.h"
@@ -594,15 +620,14 @@ const char testmap_MAP[]={
 
 void main(void) 
 {
-	unsigned int *BIOSfont;
-	BIOSfont=(unsigned int *) CGTABL;
-	
+	unsigned int BIOSfont = *(unsigned int *) CGTABL; //get BIOS font address
+		
 	COLOR(15,4,5);
- 	SCREEN(GRAPHIC1);	// Set Screen 1
+ 	SCREEN(GRAPHIC1);		// Set Screen 1
 	SetSpritesSize(SPRITES8x8);
 	
 	// Copy MSX BIOS font to VRAM Pattern Table
-	CopyToVRAM(*BIOSfont,G1_PAT,0x800);
+	CopyToVRAM(BIOSfont,G1_PAT,0x800);
 	
 	// Copy a block of characters (tiles) to VRAM Name Table
 	CopyToVRAM((unsigned int) testmap_MAP,G1_MAP+32,544);
@@ -640,32 +665,16 @@ hex2bin -e bin -l 2000 Example01.ihx
 
 Rename file `Example01.bin` to `EXA01.ROM`.
 
-
-<br/>
-
-### Example 2
-
-This example tests all of the library's functions in the four screen modes of the TMS9918A.
-Test the functionality of the library in a system environment for ROM (BIOS+ROM+RAM+RAM).
-
-<br/>
-
-
-### Example 3
-
-It is the same as Example 2 but for an MSX-DOS environment.
-
 <br/>
 
 ---
 
-## 6 Documentation
+## 6 References
   
 - Texas Instruments TMS9918A application manual [`PDF`](http://map.grauw.nl/resources/video/texasinstruments_tms9918.pdf)
 - Texas Instruments VDP Programmer’s Guide [`PDF`](http://map.grauw.nl/resources/video/ti-vdp-programmers-guide.pdf)
 - Texas Instruments TMS9918A VDP by Sean Young [`TXT`](http://bifi.msxnet.org/msxnet/tech/tms9918a.txt)
-
-
+- The MSX Red Book · [2 Video Display Processor](https://github.com/gseidler/The-MSX-Red-Book/blob/master/the_msx_red_book.md#chapter_2)
 
 <br/>
 
