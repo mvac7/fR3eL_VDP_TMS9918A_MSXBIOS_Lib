@@ -39,13 +39,19 @@ void WAIT(uint cicles);
 char INKEY(void);
 void LOCATE(char x, char y);
 
+void VPRINT(char column, char line, char* text);  //print in screen 1 or 2
+//void VPOKEARRAY(uint vaddr, char* text);
+
 char PEEK(uint address);
 void POKE(uint address, char value);
 
-void TestCLS(void);
+void PressKey(void);
 
-void VPRINT(char column, char line, char* text);  //print in screen 1 or 2
-//void VPOKEARRAY(uint vaddr, char* text);
+
+void TestVDP(void);
+
+void TestCLS(void);
+void TestClear(char nscr);
 
 void testSCREEN0(void);
 void testSCREEN1(void);
@@ -68,7 +74,7 @@ char isText1Mode(void);
 const char text00[] = "MSX fR3eL SDCC Libraries Prj";
 const char text01[] = "Test TMS9918A MSXBIOS Lib"; 
 
-const char text03[] = "Press any key to continue";
+const char text_presskey[] = "Press any key to continue";
 
 
 // Project: tMSgFX_def_tilesets
@@ -133,42 +139,19 @@ const char TILESET_B0[]={
 //
 void main(void)
 {
-	char VDPval_before;
-	char VDPval_after;
-	
 	COLOR(15,4,5);
 	POKE(LINL32,32);
 	SCREEN(1);
-	VDPval_before = GetVDP(VDP_Mode1);
-/*	HALT;
-
-	COLOR(15,4,4);
-	SCREEN(0);
-	VDPval_after = GetVDP(1);*/
 
 	VPRINT(0,0,text00);
 	VPRINT(0,1,text01);
-	
-	VPRINT(0,3,">Test SetVDP()");
-	WAIT(100);
-	SetVDP(VDP_Mode1,VDPval_before|0b00010000);	//set M1=1
-	HALT;
-	VDPval_after = GetVDP(VDP_Mode1);
-	WAIT(50);
-	SetVDP(VDP_Mode1,VDPval_before);	//restore screen
-	HALT;
-	VPRINT(0,4,">Test GetVDP()");
-	WAIT(50);
-	if (VDPval_after&0b00010000) VPRINT(0,5,">Test=Ok");	//VDPval_before != Textmode1 and VDPval_after == Textmode1
-//	if (!(VDPval_before&0b00010000) && VDPval_after&0b00010000) VPRINT(0,4,">Test GetVDP()=Ok");	//VDPval_before != Textmode1 and VDPval_after == Textmode1
-	else VPRINT(0,6,"Test=ERROR!");
 		
-//	if (isText1Mode()==true) VPRINT(0,2,"isText1Mode=YES");
-//	else VPRINT(0,2,"isText1Mode=NO");
-
-	VPRINT(0,7,text03);
+/*	VPRINT(0,7,text_presskey);
 	LOCATE(25,7);
-	INKEY();
+	INKEY();*/
+	PressKey();
+	
+	TestVDP();
   
 //TEST -------------------------------------------------------------------------   
 	TestCLS();
@@ -242,6 +225,25 @@ __endasm;
 
 
 
+//print in screen 1 or 2
+void VPRINT(char column, char line, char* text)
+{
+	uint vaddr;
+	if (GetVDP(1)&0b00010000) vaddr=BASE0 + (line*40)+column;
+	else vaddr=BASE10 + (line*32)+column; // calcula la posicion en la VRAM
+	//VPOKEARRAY(vaddr, text);
+	while(*(text)) VPOKE(vaddr++,*(text++));
+}
+
+
+
+/*void VPOKEARRAY(uint vaddr, char* text)
+{
+  while(*(text)) VPOKE(vaddr++,*(text++));
+}*/
+
+
+
 // Generates a pause in the execution of n interruptions.
 // PAL: 50=1second. ; NTSC: 60=1second. 
 void WAIT(uint cicles)
@@ -282,77 +284,92 @@ __endasm;
 
 
 
+void PressKey(void)
+{
+	VPRINT(0,23,text_presskey);
+	LOCATE(25,23);
+	INKEY();	
+}
+
+
+
+void TestVDP(void)
+{
+	char VDPval_before;
+	char VDPval_after;
+	
+	SCREEN(1);
+	VDPval_before = GetVDP(VDP_Mode1);
+	
+	VPRINT(0,0,">Test SetVDP()");
+	WAIT(100);
+	SetVDP(VDP_Mode1,VDPval_before|0b00010000);	//set M1=1
+	HALT;
+	VDPval_after = GetVDP(VDP_Mode1);
+	WAIT(50);
+	SetVDP(VDP_Mode1,VDPval_before);	//restore screen
+	HALT;
+	VPRINT(0,1,">Test GetVDP()");
+	WAIT(50);
+	if (VDPval_after&0b00010000) VPRINT(0,2,">Test=Ok");	//VDPval_before != Textmode1 and VDPval_after == Textmode1
+	else VPRINT(0,2,"Test=ERROR!");
+		
+	PressKey();	
+}
+
+
+
 void TestCLS(void)
 {
-	unsigned int BC;
-	unsigned int vaddr;
-	boolean testResult=true;
-	
+	// ----------------------------------- SCREEN 0	
 	SCREEN(0);
 	
 	FillVRAM(T1_MAP, 0x3C0, 9);	//character 9=circle
-	WAIT(50);
-	
-	CLS();
-	WAIT(25);
-	
-	vaddr=T1_MAP;
-	for(BC=0;BC<0x3C0;BC++) if(VPEEK(vaddr++)!=0) testResult=false;
-	
 	VPRINT(0,0,">Test CLS() SCREEN 0");
-	WAIT(25);
-	if(testResult==true) VPRINT(0,1,">Test=Ok");
-	else VPRINT(0,1,">Test=ERROR!");
-	
-	VPRINT(0,3,text03);
-	LOCATE(25,3);
-	INKEY();
+	TestClear(0);
 	
 	
-	
+	// ----------------------------------- SCREEN 1
 	SCREEN(1);
 	
 	FillVRAM(G1_MAP, 0x300, 203);
-	WAIT(50);
+	VPRINT(0,0,">Test CLS() SCREEN 1");
+	TestClear(1);
+}
+
+
+	
+void TestClear(char nscr)
+{	
+	unsigned int BC;
+	unsigned int vaddr;	
+	unsigned int vsize;
+	boolean testResult=true;
+
+	if(nscr==0){
+		vaddr=T1_MAP;
+		vsize=0x3C0;
+	}else{
+		vaddr=G1_MAP;
+		vsize=0x300;
+	}
+			
+
+	WAIT(100);
 	
 	CLS();
 	WAIT(25);
 	
-	vaddr=G1_MAP;
-	for(BC=0;BC<0x300;BC++) if(VPEEK(vaddr++)!=0) testResult=false;
-	
-	VPRINT(0,0,">Test CLS() SCREEN 1");
+	for(BC=0;BC<vsize;BC++) if(VPEEK(vaddr++)!=0) testResult=false;
+		
 	WAIT(25);
-	if(testResult==true) VPRINT(0,1,">Test=Ok");
-	else VPRINT(0,1,">Test=ERROR!");
+	if(testResult==true) VPRINT(0,0,">Test CLS()=Ok");
+	else VPRINT(0,0,">Test CLS()=ERROR!");
 	
-	VPRINT(0,3,text03);
+	VPRINT(0,3,text_presskey);
 	LOCATE(25,3);
 	INKEY();
 }
-
-
-
-
-
-//print in screen 1 or 2
-void VPRINT(char column, char line, char* text)
-{
-	uint vaddr;
-	if (GetVDP(1)&0b00010000) vaddr=BASE0 + (line*40)+column;
-	else vaddr=BASE10 + (line*32)+column; // calcula la posicion en la VRAM
-	//VPOKEARRAY(vaddr, text);
-	while(*(text)) VPOKE(vaddr++,*(text++));
-}
-
-
-
-/*void VPOKEARRAY(uint vaddr, char* text)
-{
-  while(*(text)) VPOKE(vaddr++,*(text++));
-}*/
-
-
 
 
 

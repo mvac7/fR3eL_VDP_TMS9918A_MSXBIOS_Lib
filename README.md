@@ -10,7 +10,7 @@
 
 ## Description
 
-Open Source library with basic functions to work with the TMS9918A video processor.
+Library with basic functions to work with the TMS9918A video processor.
 
 It uses the functions from the MSX BIOS, so it is designed to create applications in ROM or MSXBASIC environments.
 
@@ -96,7 +96,7 @@ You can find them in this project in the [`../examples/`](examples/) folder.
 
 ### Example 1
 
-This example is very simple. Shows a use case for initializing a screen in graphics mode 1.
+Simple example for documentation.
 
 <br/>
 

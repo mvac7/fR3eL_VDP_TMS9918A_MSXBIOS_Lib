@@ -45,9 +45,9 @@
 
 ## 1 Description
 
-Open Source library with basic functions to work with the TMS9918A/28A/29A video processor.
+Library with basic functions to work with the TMS9918A/28A/29A video processor.
 
-It does not use the MSX BIOS but it does require system variables, so it can be used for any MSX application although it is designed for the MSX-DOS environment.
+It uses the functions from the MSX BIOS, so it is designed to create applications in ROM or MSXBASIC environments.
 
 Use them for developing MSX applications using [Small Device C Compiler (SDCC)](http://sdcc.sourceforge.net/) cross compiler.
 
@@ -549,34 +549,17 @@ This example is very simple. Shows a use case for initializing a screen in graph
 ```c
 /* =============================================================================
 Example01.c
-Version: 1.0 (20/January/2024)
+Version: 1.0 (20/May/2025)
 Architecture: MSX
 Format: MSX ROM 8k
 Programming language: C and Z80 assembler
 Compiler: SDCC 4.3 or newer
 
 Description:
-	Test VDP TMS9918A MSX Library (fR3eL Project)
- 
-Histoy of versions:
-- v1.0 (20/January/2024) First version.
+	Test VDP TMS9918A MSX BIOS Library (fR3eL Project)
 ============================================================================= */
+#include "VDP_TMS9918A_MSXBIOS.h"
 
-#include "VDP_TMS9918A.h"
-
-
-#define CGTABL	0x0004	//(2B) Base address of the MSX character set in ROM
-
-
-const char TheSprite[]={
-0b00111100,
-0b01111110,
-0b11011011,
-0b11111111,
-0b11111111,
-0b11011011,
-0b01100110,
-0b00111100};
 
 // tMSgfX devtool v0.9.16.0
 // Map width:32 height:17
@@ -618,32 +601,31 @@ const char testmap_MAP[]={
 0x17,0x17,0x17,0x17,0x17,0x17,0x17,0x17,0x17,0x17,0x17,0x17,0x17,0x17,0x1B,0x20};
 
 
+
 void main(void) 
 {
-	unsigned int BIOSfont = *(unsigned int *) CGTABL; //get BIOS font address
+	unsigned int vaddr = SPR_OAM;
+	char TheSprite[8];			//buffer for one Sprite patter
 		
 	COLOR(15,4,5);
- 	SCREEN(GRAPHIC1);		// Set Screen 1
+ 	SCREEN(GRAPHIC1);			// Set Screen 1
 	SetSpritesSize(SPRITES8x8);
-	
-	// Copy MSX BIOS font to VRAM Pattern Table
-	CopyToVRAM(BIOSfont,G1_PAT,0x800);
 	
 	// Copy a block of characters (tiles) to VRAM Name Table
 	CopyToVRAM((unsigned int) testmap_MAP,G1_MAP+32,544);
 	
-	// Copy a 8x8 Sprite Pattern to VRAM Sprite Pattern Table
-	CopyToVRAM((unsigned int) TheSprite,SPR_PAT,8);
+	// Copy a 8x8 tile Pattern to Sprite Pattern Table
+	CopyFromVRAM(G1_PAT+16,(unsigned int) TheSprite,8);	//Copy VRAM to RAM
+	CopyToVRAM((unsigned int) TheSprite,SPR_PAT,8);		//Copy RAM to VRAM
 	
-	// Puts a Sprite on plane 0
-	VPOKE(156,SPR_OAM);		//y
-	FastVPOKE(124);			//x
-	FastVPOKE(0);			//sprite pattern
-	FastVPOKE(MAGENTA);		//color
+	// Put Sprite on plane 0
+	VPOKE(vaddr++,156);			//y
+	VPOKE(vaddr++,124);			//x
+	VPOKE(vaddr++,0);			//sprite pattern
+	VPOKE(vaddr,DARK_YELLOW);	//color
 
-// execute BIOS CHGET - One character input (waiting)
+	// execute BIOS CHGET - One character input (waiting)
 __asm call 0x009F __endasm;	
-
 }
 ```
 
