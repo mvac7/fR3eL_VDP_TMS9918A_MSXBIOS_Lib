@@ -1,6 +1,7 @@
 # VDP TMS9918A MSXBIOS SDCC Library (fR3eL Project)
 
 <table>
+<tr><td>Name</td><td>VDP_TMS9918A_MSXBIOS</td></tr>
 <tr><td>Architecture</td><td>MSX</td></tr>
 <tr><td>Format</td><td>C Object (SDCC .rel)</td></tr>
 <tr><td>Programming language</td><td>C and Z80 assembler</td></tr>
@@ -39,6 +40,7 @@ Enjoy it!
 
 ## History of versions
 
+- v1.4 (12/06/2025) add PUTSPRITE function
 - v1.3 ( 1/12/2023) update to SDCC (4.1.12) Z80 calling conventions
 - v1.2 (22/12/2020) Conversion to source in C and added Sprite initialization functions.
 - v1.1 (14/02/2014)
@@ -59,17 +61,22 @@ Enjoy it!
 
 ## Functions
 
-- void **SCREEN**(char) - Sets the display mode of the screen.
-- void **ClearSprites**() - Initialises the sprite attribute table.
-- void **SetSpritesSize**(char size) - Set size type for the sprites.
-- void **SetSpritesZoom**(boolean zoom) - Set zoom type for the sprites.
-- void **COLOR**(char, char, char) - Specifies the ink, foreground and background colors.
-- void **VPOKE**(unsigned int, char) - Writes a byte to the video RAM.
-- char **VPEEK**(unsigned int) - Reads data from the video RAM.
-- void **FillVRAM**(unsigned int, unsigned int, char) - Fill a large area of the VRAM of the same byte.
-- void **CopyToVRAM**(unsigned int, unsigned int, unsigned int) - Block transfer from memory to VRAM.
-- void **CopyFromVRAM**(unsigned int, unsigned int, unsigned int) - Block transfer from VRAM to memory.
-- void **SetVDP**(char, char) - Writes a value in VDP registers.
+| Name | Declaration | Description |
+| ---  | ---   | ---         |
+| SCREEN         | `SCREEN(char mode)` | Initializes the display |
+| COLOR          | `COLOR(char ink, char background, char border)` | Specifies the ink, foreground, and background colors of the screen |
+| CLS            | `CLS()` | Clear Screen |
+| VPOKE          | `VPOKE(unsigned int vaddr, char value)` | Writes a value to VRAM |
+| VPEEK          | `char VPEEK(unsigned int vaddr)` | Reads a value from VRAM |
+| FillVRAM       | `FillVRAM(unsigned int vaddr, unsigned int length, char value)` | Fill a large area of the VRAM of the same byte |
+| CopyToVRAM     | `CopyToVRAM(unsigned int addr, unsigned int vaddr, unsigned int length)` | Block transfer from memory to VRAM    |
+| CopyFromVRAM   | `CopyFromVRAM(unsigned int vaddr, unsigned int addr, unsigned int length)` | Block transfer from VRAM to memory  |
+| GetVDP         | `char GetVDP(char reg)` | Get value in a VDP register |
+| SetVDP         | `SetVDP(char, char)` | Writes a value to a VDP register |
+| ClearSprites   | `ClearSprites()` | Initialises the sprite attribute table (OAM) |
+| SetSpritesSize | `SetSpritesSize(char size)` | Set size type for the sprites |
+| SetSpritesZoom | `SetSpritesZoom(char zoom)` | Set zoom type for the sprites |
+| PUTSPRITE      | `PUTSPRITE(char plane, char x, char y, char color, char pattern)` | Displays a sprite |
 
 <br/>
 
@@ -96,7 +103,7 @@ You can find them in this project in the [`../examples/`](examples/) folder.
 
 ### Example 1
 
-Simple example for documentation.
+Simple example of the library (example of the documentation).
 
 <br/>
 

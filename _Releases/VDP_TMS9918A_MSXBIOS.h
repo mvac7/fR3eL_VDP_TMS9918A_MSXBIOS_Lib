@@ -146,6 +146,11 @@ Sprite Sizes
 
 
 
+/* ----------------------------------------------------------------------------
+Sprite hiding coordinates
+---------------------------------------------------------------------------- */
+#define	SPRITES_YHIDDEN	0xD1	//concealment of the sprite outside the limits of the screen in TMS9918A modes
+
 
 
 /* =============================================================================
@@ -162,40 +167,6 @@ Input:	[char] number of screen mode
 Output:	-
 ============================================================================= */
 void SCREEN(char mode);
-
-
-
-/* =============================================================================
-ClearSprites
-Description: 
-		Initialises the sprite attribute table (OAM). 
-		The vertical location of the sprite is set to 209.
-Input:	-
-Output:	-
-============================================================================= */
-void ClearSprites(void) ;
-
-
-
-/* =============================================================================
-SetSpritesSize
-Description: 
-		Set size type for the sprites.
-Input:	[char] size: 0=8x8; 1=16x16
-Output:	-
-============================================================================= */ 
-void SetSpritesSize(char size);
-
-
-
-/* =============================================================================
-SetSpritesZoom
-Description: 
-		Set zoom type for the sprites.
-Input:	[char] or [boolean]/[switcher] zoom: 0/false/OFF = x1; 1/true/ON = x2
-Output:	-
-============================================================================= */
-void SetSpritesZoom(char zoom);
 
 
 
@@ -307,6 +278,61 @@ Input:	[char] VDP register
 Output:	-
 ============================================================================= */
 void SetVDP(char reg, char value);
+
+
+
+
+
+//############################################################################## SPRITEs functions
+
+
+
+/* =============================================================================
+ClearSprites
+Description: 
+		Initialises the sprite attribute table (OAM). 
+		The vertical location of the sprite is set to 209.
+Input:	-
+Output:	-
+============================================================================= */
+void ClearSprites(void) ;
+
+
+
+/* =============================================================================
+SetSpritesSize
+Description: 
+		Set size type for the sprites.
+Input:	[char] size: 0=8x8; 1=16x16
+Output:	-
+============================================================================= */ 
+void SetSpritesSize(char size);
+
+
+
+/* =============================================================================
+SetSpritesZoom
+Description: 
+		Set zoom type for the sprites.
+Input:	[char] or [boolean]/[switcher] zoom: 0/false/OFF = x1; 1/true/ON = x2
+Output:	-
+============================================================================= */
+void SetSpritesZoom(char zoom);
+
+
+
+/* =============================================================================
+PUTSPRITE
+Description: 
+		Displays the sprite pattern.
+Input:	[char] sprite plane (0-31) 
+		[char] x 
+		[char] y
+		[char] color (0-15)
+		[char] pattern
+Output:	-
+============================================================================= */
+void PUTSPRITE(char plane, char x, char y, char color, char pattern);
 
 
 

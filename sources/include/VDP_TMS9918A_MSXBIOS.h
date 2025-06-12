@@ -146,6 +146,11 @@ Sprite Sizes
 
 
 
+/* ----------------------------------------------------------------------------
+Sprite hiding coordinates
+---------------------------------------------------------------------------- */
+#define	SPRITES_YHIDDEN	0xD1	//concealment of the sprite outside the limits of the screen in TMS9918A modes
+
 
 
 /* =============================================================================
@@ -162,6 +167,124 @@ Input:	[char] number of screen mode
 Output:	-
 ============================================================================= */
 void SCREEN(char mode);
+
+
+
+/* =============================================================================
+COLOR
+Description: 
+		Specifies the ink, foreground, and background colors of the screen 
+Input:	[char] ink color
+		[char] background color
+		[char] border color
+Output:	-     
+============================================================================= */
+void COLOR(char ink, char background, char border);
+
+
+
+/* =============================================================================
+CLS 
+Description: 
+		 Clear Screen
+		 Fill the Name Table with the value 0
+		 Note: Does not clear the sprite attribute table (OAM)
+Input:	-
+Output:	-
+============================================================================= */
+void CLS(void);
+
+
+
+/* =============================================================================
+VPOKE
+Description: 
+		Writes a value to VRAM 
+Input:	[unsigned int] VRAM address
+		[char] value
+Output:	- 
+============================================================================= */
+void VPOKE(unsigned int vaddr, char value);
+
+
+
+/* =============================================================================
+VPEEK
+Description: 
+		Reads a value from VRAM
+Input:	[unsigned int] VRAM address
+Output:	[char] value
+============================================================================= */ 
+char VPEEK(unsigned int vaddr);
+
+
+
+/* =============================================================================
+FillVRAM                               
+Description:
+		Fill a large area of the VRAM of the same byte
+Input:	[unsigned int] address of VRAM
+		[unsigned int] blocklength
+		[char] Value to fill.
+Output:	- 
+============================================================================= */
+void FillVRAM(unsigned int vaddr, unsigned int length, char value);
+
+
+
+/* =============================================================================
+CopyToVRAM
+Description:
+		Block transfer from memory to VRAM 
+Input:	[unsigned int] address of RAM
+		[unsigned int] address of VRAM
+		[unsigned int] blocklength
+Output:	- 
+============================================================================= */
+void CopyToVRAM(unsigned int addr, unsigned int vaddr, unsigned int length);
+
+
+
+/* =============================================================================
+CopyFromVRAM
+Description:
+		Block transfer from VRAM to memory
+Input:	[unsigned int] address of VRAM                     
+		[unsigned int] address of RAM
+		[unsigned int] blocklength
+Output:	-
+============================================================================= */
+void CopyFromVRAM(unsigned int vaddr, unsigned int addr, unsigned int length);
+
+
+
+/* =============================================================================
+GetVDP
+Description:
+		Get value in a VDP register
+		Provides the mirror value of a VDP register stored in system variables
+Input:	[char] VDP register              
+Output:	[char] Value            
+============================================================================= */
+char GetVDP(char reg);
+
+
+
+/* =============================================================================
+SetVDP
+Description:
+		Writes a value to a VDP register
+Input:	[char] VDP register                     
+		[char] value
+Output:	-
+============================================================================= */
+void SetVDP(char reg, char value);
+
+
+
+
+
+//############################################################################## SPRITEs functions
 
 
 
@@ -200,113 +323,17 @@ void SetSpritesZoom(char zoom);
 
 
 /* =============================================================================
-COLOR
+PUTSPRITE
 Description: 
-		Specifies the ink, foreground and background colors. 
-Input:	[char] ink color
-		[char] background color
-		[char] border color
-Output:	-     
-============================================================================= */
-void COLOR(char ink, char background, char border);
-
-
-
-/* =============================================================================
-CLS 
-Description: 
-		 Clear Screen
-		 Fill the Name Table with the value 0
-		 Note: Does not clear the sprite attribute table (OAM)
-Input:	-
+		Displays a sprite.
+Input:	[char] sprite plane (0-31) 
+		[char] x 
+		[char] y
+		[char] color (0-15)
+		[char] pattern
 Output:	-
 ============================================================================= */
-void CLS(void);
-
-
-
-/* =============================================================================
-VPOKE
-Description: 
-		Writes a byte to the video RAM. 
-Input:	[unsigned int] VRAM address
-		[char] value
-Output:	- 
-============================================================================= */
-void VPOKE(unsigned int vaddr, char value);
-
-
-
-/* =============================================================================
-VPEEK
-Description: 
-		Reads data from the video RAM. 
-Input:	[unsigned int] VRAM address
-Output:	[char] value
-============================================================================= */ 
-char VPEEK(unsigned int vaddr);
-
-
-
-/* =============================================================================
-FillVRAM                               
-Description:
-		Fill a large area of the VRAM of the same byte.
-Input:	[unsigned int] address of VRAM
-		[unsigned int] blocklength
-		[char] Value to fill.
-Output:	- 
-============================================================================= */
-void FillVRAM(unsigned int vaddr, unsigned int length, char value);
-
-
-
-/* =============================================================================
-CopyToVRAM
-Description:
-		Block transfer from memory to VRAM 
-Input:	[unsigned int] address of RAM
-		[unsigned int] address of VRAM
-		[unsigned int] blocklength
-Output:	- 
-============================================================================= */
-void CopyToVRAM(unsigned int addr, unsigned int vaddr, unsigned int length);
-
-
-
-/* =============================================================================
-CopyFromVRAM
-Description:
-		Block transfer from VRAM to memory
-Input:	[unsigned int] address of VRAM                     
-		[unsigned int] address of RAM
-		[unsigned int] blocklength
-Output:	-
-============================================================================= */
-void CopyFromVRAM(unsigned int vaddr, unsigned int addr, unsigned int length);
-
-
-
-/* =============================================================================
-GetVDP
-Description: 	
-		Provides the mirror value of a VDP register stored in system variables.
-Input:	[char] VDP register              
-Output:	[char] Value            
-============================================================================= */
-char GetVDP(char reg);
-
-
-
-/* =============================================================================
-SetVDP
-Description:
-		Writes a value in VDP registers
-Input:	[char] VDP register                     
-		[char] value
-Output:	-
-============================================================================= */
-void SetVDP(char reg, char value);
+void PUTSPRITE(char plane, char x, char y, char color, char pattern);
 
 
 

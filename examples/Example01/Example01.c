@@ -7,7 +7,7 @@ Programming language: C and Z80 assembler
 Compiler: SDCC 4.3 or newer
 
 Description:
-	Test VDP TMS9918A MSX BIOS Library (fR3eL Project)
+	Simple example of the VDP TMS9918A MSX BIOS Library (fR3eL Project)
 ============================================================================= */
 #include "VDP_TMS9918A_MSXBIOS.h"
 
