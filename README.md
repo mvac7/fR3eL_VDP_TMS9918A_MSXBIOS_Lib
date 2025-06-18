@@ -1,4 +1,4 @@
-# VDP TMS9918A MSXBIOS SDCC Library (fR3eL Project)
+# VDP TMS9918A MSX BIOS SDCC Library (fR3eL Project)
 
 <table>
 <tr><td>Name</td><td>VDP_TMS9918A_MSXBIOS</td></tr>
@@ -14,8 +14,6 @@
 
 Library with functions to work with the TMS9918A/28A/29A video processor.
 
-It uses the functions from the MSX BIOS, so it is designed to create applications in ROM or MSXBASIC environments.
-
 Since the current version you can display moving figures (Sprites), using the PUTSPRITE function (similar to MSX-BASIC), but you also have the [VDP_SPRITES_MSXBIOS](https://github.com/mvac7/SDCC_VDP_SPRITES_MSXROM_Lib) library that improves the management of Sprite parameters.
 
 You also have the [VDP_PRINT](https://github.com/mvac7/SDCC_VDP_PRINT_Lib) library with functions for display text strings in the graphic modes of the TMS9918A (G1 and G2).
@@ -24,7 +22,7 @@ You also have a [VDP_TMS9918A](https://github.com/mvac7/SDCC_VDP_TMS9918A_Lib) l
 It is designed for use in environments such as DOS or 48K ROMs, although you can also use it in other environments such as ROMs or MSX-BASIC. 
 The advantage of using the BIOS is that the library is more compact and guarantees compatibility between different MSX models, but it has the disadvantage of being slow.
 
-Use them for developing MSX applications using [Small Device C Compiler (SDCC)](http://sdcc.sourceforge.net/) cross compiler.
+It uses MSX BIOS functions, so it is designed to develop applications in ROM or MSXBASIC environments, using the Small Device C Compiler [(SDCC)](http://sdcc.sourceforge.net/) cross compiler.
 
 You can access the documentation here with [`How to use the library`](docs/HOWTO.md).
 
@@ -65,14 +63,14 @@ Enjoy it!
 | Name | Declaration | Description |
 | ---  | ---   | ---         |
 | SCREEN         | `SCREEN(char mode)` | Initializes the display |
-| COLOR          | `COLOR(char ink, char background, char border)` | Specifies the ink, foreground, and background colors of the screen |
+| COLOR          | `COLOR(char ink, char background, char border)` | Set the foreground, background, and border screen colors |
 | CLS            | `CLS()` | Clear Screen |
 | VPOKE          | `VPOKE(unsigned int vaddr, char value)` | Writes a value to VRAM |
 | VPEEK          | `char VPEEK(unsigned int vaddr)` | Reads a value from VRAM |
 | FillVRAM       | `FillVRAM(unsigned int vaddr, unsigned int length, char value)` | Fill a large area of the VRAM of the same byte |
 | CopyToVRAM     | `CopyToVRAM(unsigned int addr, unsigned int vaddr, unsigned int length)` | Block transfer from memory to VRAM    |
 | CopyFromVRAM   | `CopyFromVRAM(unsigned int vaddr, unsigned int addr, unsigned int length)` | Block transfer from VRAM to memory  |
-| GetVDP         | `char GetVDP(char reg)` | Get value in a VDP register |
+| GetVDP         | `char GetVDP(char reg)` | Gets the value in a VDP register.<br/>Provides the mirror value stored in system variables. |
 | SetVDP         | `SetVDP(char, char)` | Writes a value to a VDP register |
 | ClearSprites   | `ClearSprites()` | Initialises the Sprite Attribute Table (OAM) and Sprite Pattern Table |
 | SetSpritesSize | `SetSpritesSize(char size)` | Set size type for the sprites |
@@ -99,7 +97,7 @@ Enjoy it!
  
 The project includes several examples that I have used to test the library and that can help you learn how to use this library.
 
-You can find them in the [`../examples/`](examples/) folder.
+You can find them in the [`examples/`](examples/) folder.
 
 <br/>
 

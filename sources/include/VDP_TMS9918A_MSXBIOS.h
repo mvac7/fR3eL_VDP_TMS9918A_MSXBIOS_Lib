@@ -181,7 +181,7 @@ void SCREEN(char mode);
 /* =============================================================================
 COLOR
 Description: 
-		Specifies the ink, foreground, and background colors of the screen 
+		Set the foreground, background, and border screen colors.
 Input:	[char] ink color
 		[char] background color
 		[char] border color
@@ -269,9 +269,9 @@ void CopyFromVRAM(unsigned int vaddr, unsigned int addr, unsigned int length);
 /* =============================================================================
 GetVDP
 Description:
-		Get value in a VDP register
-		Provides the mirror value of a VDP register stored in system variables
-Input:	[char] VDP register              
+		Gets the value in a VDP register.
+		Provides the mirror value stored in system variables.
+Input:	[char] VDP register number             
 Output:	[char] Value            
 ============================================================================= */
 char GetVDP(char reg);

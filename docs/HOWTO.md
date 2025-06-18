@@ -30,14 +30,11 @@
 	- [4.7 CopyToVRAM](#47-CopyToVRAM)
 	- [4.8 CopyFromVRAM](#48-CopyFromVRAM)
 	- [4.9 GetVDP](#49-GetVDP)
-	- [4.10 SetVDP](#410-SetVDP)
-	
+	- [4.10 SetVDP](#410-SetVDP)	
 	- [4.11 SetSpritesSize](#411-SetSpritesSize)
 	- [4.12 SetSpritesZoom](#412-SetSpritesZoom)
 	- [4.13 ClearSprites](#413-ClearSprites)
-
-	- [4.14 PUTSPRITE](#414-PUTSPRITE)
-	
+	- [4.14 PUTSPRITE](#414-PUTSPRITE)	
 - [5 Examples](#5-Examples)
 - [6 References](#6-References)
 
@@ -52,8 +49,6 @@
 
 Library with basic functions to work with the TMS9918A/28A/29A video processor.
 
-It uses the functions from the MSX BIOS, so it is designed to create applications in ROM or MSXBASIC environments.
-
 Since the current version you can display moving figures (Sprites), using the PUTSPRITE function (similar to MSX-BASIC), but you also have the [VDP_SPRITES_MSXBIOS](https://github.com/mvac7/SDCC_VDP_SPRITES_MSXROM_Lib) library that improves the management of Sprite parameters.
 
 You also have the [VDP_PRINT](https://github.com/mvac7/SDCC_VDP_PRINT_Lib) library with functions for display text strings in the graphic modes of the TMS9918A (G1 and G2).
@@ -62,7 +57,7 @@ You also have a [VDP_TMS9918A](https://github.com/mvac7/SDCC_VDP_TMS9918A_Lib) l
 It is designed for use in environments such as DOS or 48K ROMs, although you can also use it in other environments such as ROMs or MSX-BASIC. 
 The advantage of using the BIOS is that the library is more compact and guarantees compatibility between different MSX models, but it has the disadvantage of being slow.
 
-Use them for developing MSX applications using [Small Device C Compiler (SDCC)](http://sdcc.sourceforge.net/) cross compiler.
+It uses MSX BIOS functions, so it is designed to develop applications in ROM or MSXBASIC environments, using the Small Device C Compiler [(SDCC)](http://sdcc.sourceforge.net/) cross compiler.
 
 You can access the documentation here with [`How to use the library`](docs/HOWTO.md).
 
@@ -217,7 +212,9 @@ Definition of the video memory addresses where the different graphic data tables
 Based on the BASE instruction of MSX BASIC.
 **Note:** These addresses are those used by default by the MSX system.
 
-**OAM** Object Attribute Memory
+__***OAM** = Object Attribute Memory__
+
+<br/>
 
 #### Screen0 T1 TXT40
 Label	| Value		| Description
@@ -286,7 +283,7 @@ BANK2	| 0x1000
 <tr><th colspan=3 align="left">SCREEN</th></tr>
 <tr><td colspan=3>Initializes the display to one of the four standardized modes on the MSX.<br/>Same as the SCREEN instruction in MSX BASIC.</td></tr>
 <tr><th>Function</th><td colspan=2>SCREEN(char mode)<td></tr>
-<tr><th>Input</th><td>`char`</td><td>Screen mode (0-3)</td></tr>
+<tr><th>Input</th><td>char</td><td>Screen mode (0-3)</td></tr>
 <tr><th>Output</th><td colspan=2>-</td></tr>
 </table>
 
@@ -325,14 +322,15 @@ BANK2	| 0x1000
 <table>
 <tr><th colspan=3 align="left">COLOR</th></tr>
 <tr><td colspan=3>
-Put the ink, background and foreground colors.<br/>This function has different behaviors depending on the screen mode.<br/>
+Set the foreground, background, and border screen colors.<br/>This function has different behaviors depending on the screen mode.<br/>
 In Text1 mode, the color change is instantaneous except the border color which has no effect.<br/>
-In GRAPHIC1, GRAPHIC2 and Multicolor modes, only the border color has an instant effect. Ink and background colors are only used when starting the screen with the SCREEN() function.
+In GRAPHIC1, GRAPHIC2 and Multicolor modes, only the border color has an instant effect.<br/>
+Ink and background colors are only used when starting the screen with the SCREEN() function.
 </td></tr>
 <tr><th>Function</th><td colspan=2>COLOR(char ink, char BG, char border)<td></tr>
-<tr><th rowspan=3>Input</th><td>`char`</td><td>Ink color (0-15)</td></tr>
-<tr><td>`char`</td><td>Background color (0-15)</td></tr>
-<tr><td>`char`</td><td>Border color (0-15)</td></tr>
+<tr><th rowspan=3>Input</th><td>char</td><td>Ink color (0-15)</td></tr>
+<tr><td>char</td><td>Background color (0-15)</td></tr>
+<tr><td>char</td><td>Border color (0-15)</td></tr>
 <tr><th>Output</th><td colspan=2>-</td></tr>
 </table>
 
@@ -356,8 +354,8 @@ In GRAPHIC1, GRAPHIC2 and Multicolor modes, only the border color has an instant
 <tr><th colspan=3 align="left">VPOKE</th></tr>
 <tr><td colspan=3>Writes a value to the video RAM.</td></tr>
 <tr><th>Function</th><td colspan=2>VPOKE(char value, unsigned int VRAMaddr)<td></tr>
-<tr><th rowspan=2>Input</th><td>`char`</td><td>Value</td></tr>
-<tr><td>`unsigned int`</td><td>VRAM address</td></tr>
+<tr><th rowspan=2>Input</th><td>char</td><td>Value</td></tr>
+<tr><td>unsigned int</td><td>VRAM address</td></tr>
 <tr><th>Output</th><td colspan=2>-</td></tr>
 </table>
 
@@ -381,8 +379,8 @@ In GRAPHIC1, GRAPHIC2 and Multicolor modes, only the border color has an instant
 <tr><th colspan=3 align="left">VPEEK</th></tr>
 <tr><td colspan=3>Reads a value from the video RAM.</td></tr>
 <tr><th>Function</th><td colspan=2>VPEEK(unsigned int VRAMaddr)<td></tr>
-<tr><th>Input</th><td>`unsigned int`</td><td>VRAM address</td></tr>
-<tr><th>Output</th><td>`char`</td><td>Value</td></tr>
+<tr><th>Input</th><td>unsigned int</td><td>VRAM address</td></tr>
+<tr><th>Output</th><td>char</td><td>Value</td></tr>
 </table>
 
 ##### Example:
@@ -400,9 +398,9 @@ In GRAPHIC1, GRAPHIC2 and Multicolor modes, only the border color has an instant
 <tr><th colspan=3 align="left">FillVRAM</th></tr>
 <tr><td colspan=3>Fill a large area of the VRAM of the same byte.</td></tr>
 <tr><th>Function</th><td colspan=2>FillVRAM(unsigned int VRAMaddr, unsigned int size, char value)<td></tr>
-<tr><th rowspan=3>Input</th><td>`unsigned int`</td><td>VRAM address</td></tr>
-<tr><td>`unsigned int`</td><td>blocklength</td></tr>
-<tr><td>`char`</td><td>Value</td></tr>
+<tr><th rowspan=3>Input</th><td>unsigned int</td><td>VRAM address</td></tr>
+<tr><td>unsigned int</td><td>blocklength</td></tr>
+<tr><td>char</td><td>Value</td></tr>
 <tr><th>Output</th><td colspan=2>-</td></tr>
 </table>
 
@@ -420,9 +418,9 @@ In GRAPHIC1, GRAPHIC2 and Multicolor modes, only the border color has an instant
 <tr><th colspan=3 align="left">CopyToVRAM</th></tr>
 <tr><td colspan=3>Block transfer from memory to VRAM.</td></tr>
 <tr><th>Function</th><td colspan=2>CopyToVRAM(unsigned int MEMaddr, unsigned int VRAMaddr, unsigned int size)<td></tr>
-<tr><th rowspan=3>Input</th><td>`unsigned int`</td><td>Memory address</td></tr>
-<tr><td>`unsigned int`</td><td>VRAM address</td></tr>
-<tr><td>`unsigned int`</td><td>blocklength</td></tr>
+<tr><th rowspan=3>Input</th><td>unsigned int</td><td>Memory address</td></tr>
+<tr><td>unsigned int</td><td>VRAM address</td></tr>
+<tr><td>unsigned int</td><td>blocklength</td></tr>
 <tr><th>Output</th><td colspan=2>-</td></tr>
 </table>
 
@@ -442,9 +440,9 @@ In GRAPHIC1, GRAPHIC2 and Multicolor modes, only the border color has an instant
 <tr><th colspan=3 align="left">CopyFromVRAM</th></tr>
 <tr><td colspan=3>Block transfer from VRAM to RAM.</td></tr>
 <tr><th>Function</th><td colspan=2>CopyFromVRAM(unsigned int VRAMaddr, unsigned int RAMaddr, unsigned int size)<td></tr>
-<tr><th rowspan=3>Input</th><td>`unsigned int`</td><td>VRAM address</td></tr>
-<tr><td>`unsigned int`</td><td>RAM address</td></tr>
-<tr><td>`unsigned int`</td><td>blocklength</td></tr>
+<tr><th rowspan=3>Input</th><td>unsigned int</td><td>VRAM address</td></tr>
+<tr><td>unsigned int</td><td>RAM address</td></tr>
+<tr><td>unsigned int</td><td>blocklength</td></tr>
 <tr><th>Output</th><td colspan=2>-</td></tr>
 </table>
 
@@ -460,10 +458,10 @@ In GRAPHIC1, GRAPHIC2 and Multicolor modes, only the border color has an instant
 
 <table>
 <tr><th colspan=3 align="left">GetVDP</th></tr>
-<tr><td colspan=3>Provides the mirror value of a VDP register stored in system variables.</td></tr>
+<tr><td colspan=3>Gets the value in a VDP register.<br/>Provides the mirror value stored in system variables.</td></tr>
 <tr><th>Function</th><td colspan=2>GetVDP(char register)<td></tr>
-<tr><th>Input</th><td>`char`</td><td>VDP register (0-7)</td></tr>
-<tr><th>Output</th><td>`char`</td><td>Value</td></tr>
+<tr><th>Input</th><td>char</td><td>VDP register number (0-7)</td></tr>
+<tr><th>Output</th><td>char</td><td>Value</td></tr>
 </table>
 
 ##### Example:
@@ -482,8 +480,8 @@ In GRAPHIC1, GRAPHIC2 and Multicolor modes, only the border color has an instant
 <tr><th colspan=3 align="left">SetVDP</th></tr>
 <tr><td colspan=3>Writes a value to a VDP register.</td></tr>
 <tr><th>Function</th><td colspan=2>SetVDP(char register, char value)<td></tr>
-<tr><th rowspan=2>Input</th><td>`char`</td><td>VDP register (0-7)</td></tr>
-<tr><td>`char`</td><td>value</td></tr>
+<tr><th rowspan=2>Input</th><td>char</td><td>VDP register (0-7)</td></tr>
+<tr><td>char</td><td>value</td></tr>
 <tr><th>Output</th><td colspan=2>-</td></tr>
 </table>
 
@@ -508,7 +506,7 @@ In GRAPHIC1, GRAPHIC2 and Multicolor modes, only the border color has an instant
 <tr><th colspan=3 align="left">SetSpritesSize</th></tr>
 <tr><td colspan=3>Set size type for the sprites.</td></tr>
 <tr><th>Function</th><td colspan=2>SetSpritesSize(char size)</td></tr>
-<tr><th>Input</th><td>`char`</td><td>Size (0=8x8; 1=16x16)</td></tr>
+<tr><th>Input</th><td>char</td><td>Size (0=8x8; 1=16x16)</td></tr>
 <tr><th>Output</th><td colspan=2>-</td></tr>
 </table>
 
@@ -530,7 +528,7 @@ In GRAPHIC1, GRAPHIC2 and Multicolor modes, only the border color has an instant
 <tr><th colspan=3 align="left">SetSpritesZoom</th></tr>
 <tr><td colspan=3>Set zoom type for the sprites.</td></tr>
 <tr><th>Function</th><td colspan=2>SetSpritesZoom(char zoom)</td></tr>
-<tr><th>Input</th><td>`char` or `boolean` or `switcher`</td><td>zoom: 0/false/OFF = x1; 1/true/ON = x2</td></tr>
+<tr><th>Input</th><td>char or boolean or switcher</td><td>zoom: 0/false/OFF = x1; 1/true/ON = x2</td></tr>
 <tr><th>Output</th><td colspan=2>-</td></tr>
 </table>
 
@@ -588,11 +586,11 @@ So, if we set plane 0 to position 208, we will hide all sprites on the screen. |
 <tr><th colspan=3 align="left">PUTSPRITE</th></tr>
 <tr><td colspan=3>Displays a Sprite on the screen.</td></tr>
 <tr><th>Function</th><td colspan=2>PUTSPRITE(char plane, char x, char y, char color, char pattern)</td></tr>
-<tr><th rowspan=5>Input</th><td>`char`</td><td>sprite plane (0-31)</td></tr>
-<tr><td>`char`</td><td>X coordinate</td></tr>
-<tr><td>`char`</td><td>Y coordinate</td></tr>
-<tr><td>`char`</td><td>Color (0-15)</td></tr>
-<tr><td>`char`</td><td>pattern number</td></tr>
+<tr><th rowspan=5>Input</th><td>char</td><td>sprite plane (0-31)</td></tr>
+<tr><td>char</td><td>X coordinate</td></tr>
+<tr><td>char</td><td>Y coordinate</td></tr>
+<tr><td>char</td><td>Color (0-15)</td></tr>
+<tr><td>char</td><td>pattern number</td></tr>
 <tr><th>Output</th><td colspan=2>-</td></tr>
 </table>
 
@@ -616,9 +614,13 @@ Requires the following items:
 - Startup file for MSX 8/16K ROM [crt0_MSX816kROM4000](https://github.com/mvac7/SDCC_startup_MSX816kROM4000)
 - [VDP_TMS9918A_MSXBIOS Library](https://github.com/mvac7/SDCC_VDP_TMS9918A_MSXROM_Lib)
 
+<br/>
+
 And you need the following applications to compile and generate the final ROM:
 - [Small Device C Compiler (SDCC) v4.4](http://sdcc.sourceforge.net/)
 - [Hex2bin v2.5](http://hex2bin.sourceforge.net/)
+
+<br/>
 
 This example performs the following actions:
 1. Initializes the screen to Graphic1 mode (Screen 1) with 16x16 sprites in 2x zoom mode.
@@ -627,6 +629,8 @@ This example performs the following actions:
 1. Copy the pattern to the Sprite Pattern Table (from RAM to VRAM).
 1. Display a Sprite by writing directly to the VRAM Sprite Attribute Table using the `VPOKE` function.
 1. Display a Sprite using the `PUTSPRITE` function.
+
+<br/>
 
 ![Example screenshot](../examples/data/EXAMPLE1_01.png)
 
@@ -721,19 +725,29 @@ __asm call 0x009F __endasm;
 
 #### For compile:
 
-First you must compile the source with SDCC as follows:
+To obtain a binary with the ROM of the example program, execute the following steps in a Windows command line (CMD):
+
+1. Compile with SDCC
 
 ```
 sdcc -mz80 --code-loc 0x4020 --data-loc 0xC000 --use-stdout --no-std-crt0 crt0_MSX816kROM4000.rel VDP_TMS9918A.rel Example01.c
 ```
 
-If no error is displayed, you should run hex2bin to convert the SDCC output to a binary file.
+<br/>
+
+2. If the compiler has not displayed an error then convert the .ihx file to binary with hex2bin
 
 ```
 hex2bin -e bin -l 2000 Example01.ihx
 ```
 
-Rename file `Example01.bin` to `EXA01.ROM`.
+<br/>
+
+3. Rename the binary to .ROM
+
+```
+rename Example01.bin EXAMPLE1.ROM
+```
 
 <br/>
 
