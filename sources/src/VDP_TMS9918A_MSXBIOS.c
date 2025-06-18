@@ -107,8 +107,8 @@ __endasm;
 CLS 
 Description: 
 		 Clear Screen
-		 Fill the Name Table with the value 0
-		 Does not clear the sprite attribute table (OAM)		 
+		 Fills the Name Table with the value 0
+		 Note: Does not hide Sprite planes.
 Input:	-
 Output:	-
 ============================================================================= */
@@ -323,11 +323,7 @@ __endasm;
 /* =============================================================================
 ClearSprites
 Description: 
-	Initialises the sprite attribute table (OAM). 
-	The vertical location of the sprite is set to 209.
-	The sprite pattern is cleared to null, the sprite number to the sprite 
-	plane number, the sprite colour to the foregtound colour. The vertical 
-	location of the sprite is set to 209 (mode 0 to 3) or 217 (mode 4 to 8).
+		Initialises the Sprite Attribute Table (OAM) and Sprite Pattern Table.
 Input:	-
 Output:	-
 ============================================================================= */
@@ -406,12 +402,12 @@ __endasm;
 /* =============================================================================
 PUTSPRITE
 Description: 
-		Displays a sprite.
+		Displays a Sprite on the screen.
 Input:	[char] sprite plane (0-31) 
-		[char] x 
-		[char] y
+		[char] X coordinate 
+		[char] Y coordinate
 		[char] color (0-15)
-		[char] pattern
+		[char] pattern number
 Output:	-
 ============================================================================= */
 void PUTSPRITE(char plane, char x, char y, char color, char pattern)

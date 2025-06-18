@@ -146,6 +146,19 @@ Sprite Sizes
 
 
 
+/* ----------------------------------------------------------------------------
+Sprite Zoom
+---------------------------------------------------------------------------- */
+#define SPRITESzoomX1		0
+#define SPRITESzoomX2		1
+
+
+
+/* ----------------------------------------------------------------------------
+Sprite hiding coordinates
+---------------------------------------------------------------------------- */
+#define	SPRITES_YHIDDEN	0xD1	//concealment of the sprite outside the limits of the screen in TMS9918A modes
+
 
 
 /* =============================================================================
@@ -166,43 +179,9 @@ void SCREEN(char mode);
 
 
 /* =============================================================================
-ClearSprites
-Description: 
-		Initialises the sprite attribute table (OAM). 
-		The vertical location of the sprite is set to 209.
-Input:	-
-Output:	-
-============================================================================= */
-void ClearSprites(void) ;
-
-
-
-/* =============================================================================
-SetSpritesSize
-Description: 
-		Set size type for the sprites.
-Input:	[char] size: 0=8x8; 1=16x16
-Output:	-
-============================================================================= */ 
-void SetSpritesSize(char size);
-
-
-
-/* =============================================================================
-SetSpritesZoom
-Description: 
-		Set zoom type for the sprites.
-Input:	[char] or [boolean]/[switcher] zoom: 0/false/OFF = x1; 1/true/ON = x2
-Output:	-
-============================================================================= */
-void SetSpritesZoom(char zoom);
-
-
-
-/* =============================================================================
 COLOR
 Description: 
-		Specifies the ink, foreground and background colors. 
+		Specifies the ink, foreground, and background colors of the screen 
 Input:	[char] ink color
 		[char] background color
 		[char] border color
@@ -216,8 +195,8 @@ void COLOR(char ink, char background, char border);
 CLS 
 Description: 
 		 Clear Screen
-		 Fill the Name Table with the value 0
-		 Note: Does not clear the sprite attribute table (OAM)
+		 Fills the Name Table with the value 0
+		 Note: Does not hide Sprite planes.
 Input:	-
 Output:	-
 ============================================================================= */
@@ -228,7 +207,7 @@ void CLS(void);
 /* =============================================================================
 VPOKE
 Description: 
-		Writes a byte to the video RAM. 
+		Writes a value to VRAM 
 Input:	[unsigned int] VRAM address
 		[char] value
 Output:	- 
@@ -240,7 +219,7 @@ void VPOKE(unsigned int vaddr, char value);
 /* =============================================================================
 VPEEK
 Description: 
-		Reads data from the video RAM. 
+		Reads a value from VRAM
 Input:	[unsigned int] VRAM address
 Output:	[char] value
 ============================================================================= */ 
@@ -251,7 +230,7 @@ char VPEEK(unsigned int vaddr);
 /* =============================================================================
 FillVRAM                               
 Description:
-		Fill a large area of the VRAM of the same byte.
+		Fill a large area of the VRAM of the same byte
 Input:	[unsigned int] address of VRAM
 		[unsigned int] blocklength
 		[char] Value to fill.
@@ -289,8 +268,9 @@ void CopyFromVRAM(unsigned int vaddr, unsigned int addr, unsigned int length);
 
 /* =============================================================================
 GetVDP
-Description: 	
-		Provides the mirror value of a VDP register stored in system variables.
+Description:
+		Get value in a VDP register
+		Provides the mirror value of a VDP register stored in system variables
 Input:	[char] VDP register              
 Output:	[char] Value            
 ============================================================================= */
@@ -301,12 +281,66 @@ char GetVDP(char reg);
 /* =============================================================================
 SetVDP
 Description:
-		Writes a value in VDP registers
+		Writes a value to a VDP register
 Input:	[char] VDP register                     
 		[char] value
 Output:	-
 ============================================================================= */
 void SetVDP(char reg, char value);
+
+
+
+
+
+//############################################################################## SPRITEs functions
+
+
+
+/* =============================================================================
+ClearSprites
+Description: 
+		Initialises the Sprite Attribute Table (OAM) and Sprite Pattern Table.
+Input:	-
+Output:	-
+============================================================================= */
+void ClearSprites(void) ;
+
+
+
+/* =============================================================================
+SetSpritesSize
+Description: 
+		Set size type for the sprites.
+Input:	[char] size: 0=8x8; 1=16x16
+Output:	-
+============================================================================= */ 
+void SetSpritesSize(char size);
+
+
+
+/* =============================================================================
+SetSpritesZoom
+Description: 
+		Set zoom type for the sprites.
+Input:	[char] or [boolean]/[switcher] zoom: 0/false/OFF = x1; 1/true/ON = x2
+Output:	-
+============================================================================= */
+void SetSpritesZoom(char zoom);
+
+
+
+/* =============================================================================
+PUTSPRITE
+Description: 
+		Displays a Sprite on the screen.
+Input:	[char] sprite plane (0-31) 
+		[char] X coordinate 
+		[char] Y coordinate
+		[char] color (0-15)
+		[char] pattern number
+Output:	-
+============================================================================= */
+void PUTSPRITE(char plane, char x, char y, char color, char pattern);
 
 
 

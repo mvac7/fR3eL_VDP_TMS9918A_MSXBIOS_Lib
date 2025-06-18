@@ -147,6 +147,14 @@ Sprite Sizes
 
 
 /* ----------------------------------------------------------------------------
+Sprite Zoom
+---------------------------------------------------------------------------- */
+#define SPRITESzoomX1		0
+#define SPRITESzoomX2		1
+
+
+
+/* ----------------------------------------------------------------------------
 Sprite hiding coordinates
 ---------------------------------------------------------------------------- */
 #define	SPRITES_YHIDDEN	0xD1	//concealment of the sprite outside the limits of the screen in TMS9918A modes
@@ -187,8 +195,8 @@ void COLOR(char ink, char background, char border);
 CLS 
 Description: 
 		 Clear Screen
-		 Fill the Name Table with the value 0
-		 Note: Does not clear the sprite attribute table (OAM)
+		 Fills the Name Table with the value 0
+		 Note: Does not hide Sprite planes.
 Input:	-
 Output:	-
 ============================================================================= */
@@ -291,8 +299,7 @@ void SetVDP(char reg, char value);
 /* =============================================================================
 ClearSprites
 Description: 
-		Initialises the sprite attribute table (OAM). 
-		The vertical location of the sprite is set to 209.
+		Initialises the Sprite Attribute Table (OAM) and Sprite Pattern Table.
 Input:	-
 Output:	-
 ============================================================================= */
@@ -325,12 +332,12 @@ void SetSpritesZoom(char zoom);
 /* =============================================================================
 PUTSPRITE
 Description: 
-		Displays a sprite.
+		Displays a Sprite on the screen.
 Input:	[char] sprite plane (0-31) 
-		[char] x 
-		[char] y
+		[char] X coordinate 
+		[char] Y coordinate
 		[char] color (0-15)
-		[char] pattern
+		[char] pattern number
 Output:	-
 ============================================================================= */
 void PUTSPRITE(char plane, char x, char y, char color, char pattern);

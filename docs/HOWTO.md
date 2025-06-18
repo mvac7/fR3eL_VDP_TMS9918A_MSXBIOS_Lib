@@ -15,24 +15,29 @@
 	- [3.2 VDP Registers](#32-VDP-Registers)
 	- [3.3 Screen Modes](#33-Screen-Modes)
 	- [3.4 Sprite Sizes](#34-Sprite-Sizes)
-	- [3.5 Color Names](#35-Color-Names)
-	- [3.6 VDP base address tables](#36-VDP-base-address-tables)
-	- [3.7 VDP base address tables 2 (BASE type)](#37-VDP-base-address-tables-2-(BASE-type))
-	- [3.8 G2 Tileset Bank addends](#38-G2-Tileset-Bank-addends)
+	- [3.5 Sprite Zoom](#35-Sprite-Zoom)
+	- [3.6 Color Names](#36-Color-Names)
+	- [3.7 VDP base address tables](#37-VDP-base-address-tables)
+	- [3.8 VDP base address tables 2 (BASE type)](#38-VDP-base-address-tables-2-(BASE-type))
+	- [3.9 G2 Tileset Bank addends](#39-G2-Tileset-Bank-addends)
 - [4 Functions](#4-Functions)
 	- [4.1 SCREEN](#41-SCREEN)
-	- [4.2 SetSpritesSize](#42-SetSpritesSize)
-	- [4.3 SetSpritesZoom](#43-SetSpritesZoom)	
-	- [4.4 CLS](#44-CLS)	
-	- [4.5 ClearSprites](#45-ClearSprites)
-	- [4.6 COLOR](#46-COLOR)
-	- [4.7 VPOKE](#47-VPOKE)
-	- [4.8 VPEEK](#48-VPEEK)
-	- [4.9 FillVRAM](#49-FillVRAM)
-	- [4.10 CopyToVRAM](#410-CopyToVRAM)
-	- [4.11 CopyFromVRAM](#411-CopyFromVRAM)
-	- [4.12 GetVDP](#412-GetVDP)
-	- [4.13 SetVDP](#413-SetVDP)
+	- [4.2 CLS](#42-CLS)
+	- [4.3 COLOR](#43-COLOR)
+	- [4.4 VPOKE](#44-VPOKE)
+	- [4.5 VPEEK](#45-VPEEK)
+	- [4.6 FillVRAM](#46-FillVRAM)
+	- [4.7 CopyToVRAM](#47-CopyToVRAM)
+	- [4.8 CopyFromVRAM](#48-CopyFromVRAM)
+	- [4.9 GetVDP](#49-GetVDP)
+	- [4.10 SetVDP](#410-SetVDP)
+	
+	- [4.11 SetSpritesSize](#411-SetSpritesSize)
+	- [4.12 SetSpritesZoom](#412-SetSpritesZoom)
+	- [4.13 ClearSprites](#413-ClearSprites)
+
+	- [4.14 PUTSPRITE](#414-PUTSPRITE)
+	
 - [5 Examples](#5-Examples)
 - [6 References](#6-References)
 
@@ -49,15 +54,26 @@ Library with basic functions to work with the TMS9918A/28A/29A video processor.
 
 It uses the functions from the MSX BIOS, so it is designed to create applications in ROM or MSXBASIC environments.
 
+Since the current version you can display moving figures (Sprites), using the PUTSPRITE function (similar to MSX-BASIC), but you also have the [VDP_SPRITES_MSXBIOS](https://github.com/mvac7/SDCC_VDP_SPRITES_MSXROM_Lib) library that improves the management of Sprite parameters.
+
+You also have the [VDP_PRINT](https://github.com/mvac7/SDCC_VDP_PRINT_Lib) library with functions for display text strings in the graphic modes of the TMS9918A (G1 and G2).
+
+You also have a [VDP_TMS9918A](https://github.com/mvac7/SDCC_VDP_TMS9918A_Lib) library where all functions are programmed without using the BIOS. 
+It is designed for use in environments such as DOS or 48K ROMs, although you can also use it in other environments such as ROMs or MSX-BASIC. 
+The advantage of using the BIOS is that the library is more compact and guarantees compatibility between different MSX models, but it has the disadvantage of being slow.
+
 Use them for developing MSX applications using [Small Device C Compiler (SDCC)](http://sdcc.sourceforge.net/) cross compiler.
 
-This library is part of the [MSX fR3eL Project](https://github.com/mvac7/SDCC_MSX_fR3eL).
+You can access the documentation here with [`How to use the library`](docs/HOWTO.md).
 
+These libraries are part of the [MSX fR3eL Project](https://github.com/mvac7/SDCC_MSX_fR3eL).
+
+This project is open source under the [MIT license](LICENSE). 
+You can add part or all of this code in your application development or include it in other libraries/engines.
 
 <br/>
 
 ---
-
 
 
 
@@ -69,7 +85,6 @@ This library is part of the [MSX fR3eL Project](https://github.com/mvac7/SDCC_MS
 <br/>
 
 ---
-
 
 
 
@@ -121,7 +136,16 @@ SPRITES16x16	| 1
 
 <br/>
 
-### 3.5 Color Names
+### 3.5 Sprite Zoom
+
+Label			| Value
+:---			| ---:
+SPRITESzoomX1	| 0
+SPRITESzoomX2	| 1
+
+<br/>
+
+### 3.6 Color Names
 
 Label		| Value
 :---		| ---:
@@ -144,7 +168,7 @@ WHITE		| 15
 
 <br/>
 
-### 3.6 VDP base address tables 1
+### 3.7 VDP base address tables 1
 Definition of the video memory addresses where the different graphic data tables are located.
 
 <table>
@@ -176,8 +200,18 @@ SPR_PAT	| 0x3800	| Sprite Pattern Table
 
 <br/>
 
+#### Example:
 
-### 3.7 VDP base address tables 2 (BASE type)
+```c
+	//Copy a tileset patterns to the three banks of the Screen2 graphic mode
+	CopyToVRAM((unsigned int) TilesetDATA_PAT,G2_PAT_A,0x800);
+	CopyToVRAM((unsigned int) TilesetDATA_PAT,G2_PAT_B,0x800);
+	CopyToVRAM((unsigned int) TilesetDATA_PAT,G2_PAT_C,0x800);
+```
+
+<br/>
+
+### 3.8 VDP base address tables 2 (BASE type)
 
 Definition of the video memory addresses where the different graphic data tables are located.
 Based on the BASE instruction of MSX BASIC.
@@ -219,7 +253,7 @@ BASE19	| 0x3800	| Sprite Pattern Table
 
 <br/>
 
-### 3.8 G2 Tileset Bank addends
+### 3.9 G2 Tileset Bank addends
 Labels to facilitate the positioning of the tileset banks in G2 mode.
 
 Label	| Value
@@ -231,18 +265,17 @@ BANK2	| 0x1000
 <br/>
 
 #### Example:
+
 ```c
-	//Copy a tileset to the three banks of the Screen2 graphic mode
-	CopyToVRAM(TilesetDATA_PAT,BASE12+BANK0,0x800);
-	CopyToVRAM(TilesetDATA_PAT,BASE12+BANK1,0x800);
-	CopyToVRAM(TilesetDATA_PAT,BASE12+BANK2,0x800);
+	//Copy a tileset patterns to the three banks of the Screen2 graphic mode
+	CopyToVRAM((unsigned int) TilesetDATA_PAT,BASE12+BANK0,0x800);
+	CopyToVRAM((unsigned int) TilesetDATA_PAT,BASE12+BANK1,0x800);
+	CopyToVRAM((unsigned int) TilesetDATA_PAT,BASE12+BANK2,0x800);
 ```
 
 <br/>
 
 ---
-
-
 
 
 ## 4 Functions
@@ -269,59 +302,11 @@ BANK2	| 0x1000
 
 <br/>
 
-#### 4.2 SetSpritesSize
-
-<table>
-<tr><th colspan=3 align="left">SetSpritesSize</th></tr>
-<tr><td colspan=3>Set size type for the sprites.</td></tr>
-<tr><th>Function</th><td colspan=2>SetSpritesSize(char size)</td></tr>
-<tr><th>Input</th><td>`char`</td><td>Size (0=8x8; 1=16x16)</td></tr>
-<tr><th>Output</th><td colspan=2>-</td></tr>
-</table>
-
-##### Examples:
-
-```c
-	SetSpritesSize(0);	//8x8
-```
-
-```c
-	SetSpritesSize(SPRITES16x16);
-```
-
-<br/>
-
-#### 4.3 SetSpritesZoom
-
-<table>
-<tr><th colspan=3 align="left">SetSpritesZoom</th></tr>
-<tr><td colspan=3>Set zoom type for the sprites.</td></tr>
-<tr><th>Function</th><td colspan=2>SetSpritesZoom(char zoom)</td></tr>
-<tr><th>Input</th><td>`char` or `boolean` or `switcher`</td><td>zoom: 0/false/OFF = x1; 1/true/ON = x2</td></tr>
-<tr><th>Output</th><td colspan=2>-</td></tr>
-</table>
-
-**Note:** To use `boolean` or `switcher` types, you must include the "newTypes.h" header in your source, which you will find in the main fR3eL repository.
-
-##### Examples:
-
-```c
-	SetSpritesZoom(false);
-```
-
-```c
-	SetSpritesSize(SPRITES16x16);
-	SetSpritesZoom(ON);
-```
-
-<br/>
-
-
-#### 4.4 CLS
+#### 4.2 CLS
 
 <table>
 <tr><th colspan=3 align="left">CLS</th></tr>
-<tr><td colspan=3>Clear Screen. Fill in 0, all Name Table.</td></tr>
+<tr><td colspan=3>Clear Screen. Fills the Name Table with the value 0.<br/>Note: Does not hide Sprite planes.</td></tr>
 <tr><th>Function</th><td colspan=2>CLS()</td></tr>
 <tr><th>Input</th><td colspan=2>-</td></tr>
 <tr><th>Output</th><td colspan=2>-</td></tr>
@@ -335,26 +320,7 @@ BANK2	| 0x1000
 
 <br/>
 
-#### 4.5 ClearSprites
-
-<table>
-<tr><th colspan=3 align="left">ClearSprites</th></tr>
-<tr><td colspan=3>Initialises the sprite attribute table.</td></tr>
-<tr><th>Function</th><td colspan=2>ClearSprites()</td></tr>
-<tr><th>Input</th><td colspan=2>-</td></tr>
-<tr><th>Output</th><td colspan=2>-</td></tr>
-</table>
-
-##### Example:
-
-```c
-	ClearSprites();
-	CLS();
-```
-
-<br/>
-
-#### 4.6 COLOR
+#### 4.3 COLOR
 
 <table>
 <tr><th colspan=3 align="left">COLOR</th></tr>
@@ -384,7 +350,7 @@ In GRAPHIC1, GRAPHIC2 and Multicolor modes, only the border color has an instant
 
 <br/>
 
-#### 4.7 VPOKE
+#### 4.4 VPOKE
 
 <table>
 <tr><th colspan=3 align="left">VPOKE</th></tr>
@@ -409,7 +375,7 @@ In GRAPHIC1, GRAPHIC2 and Multicolor modes, only the border color has an instant
 
 <br/>
 
-#### 4.8 VPEEK
+#### 4.5 VPEEK
 
 <table>
 <tr><th colspan=3 align="left">VPEEK</th></tr>
@@ -428,7 +394,7 @@ In GRAPHIC1, GRAPHIC2 and Multicolor modes, only the border color has an instant
 
 <br/>
 
-#### 4.9 FillVRAM
+#### 4.6 FillVRAM
 
 <table>
 <tr><th colspan=3 align="left">FillVRAM</th></tr>
@@ -448,7 +414,7 @@ In GRAPHIC1, GRAPHIC2 and Multicolor modes, only the border color has an instant
 
 <br/>
 
-#### 4.10 CopyToVRAM
+#### 4.7 CopyToVRAM
 
 <table>
 <tr><th colspan=3 align="left">CopyToVRAM</th></tr>
@@ -470,7 +436,7 @@ In GRAPHIC1, GRAPHIC2 and Multicolor modes, only the border color has an instant
 
 <br/>
 
-#### 4.11 CopyFromVRAM
+#### 4.8 CopyFromVRAM
 
 <table>
 <tr><th colspan=3 align="left">CopyFromVRAM</th></tr>
@@ -490,7 +456,7 @@ In GRAPHIC1, GRAPHIC2 and Multicolor modes, only the border color has an instant
 
 <br/>
 
-#### 4.12 GetVDP
+#### 4.9 GetVDP
 
 <table>
 <tr><th colspan=3 align="left">GetVDP</th></tr>
@@ -510,7 +476,7 @@ In GRAPHIC1, GRAPHIC2 and Multicolor modes, only the border color has an instant
 <br/>
 
 
-#### 4.13 SetVDP
+#### 4.10 SetVDP
 
 <table>
 <tr><th colspan=3 align="left">SetVDP</th></tr>
@@ -530,18 +496,139 @@ In GRAPHIC1, GRAPHIC2 and Multicolor modes, only the border color has an instant
 
 <br/>
 
+
+
+
+
+
+
+#### 4.11 SetSpritesSize
+
+<table>
+<tr><th colspan=3 align="left">SetSpritesSize</th></tr>
+<tr><td colspan=3>Set size type for the sprites.</td></tr>
+<tr><th>Function</th><td colspan=2>SetSpritesSize(char size)</td></tr>
+<tr><th>Input</th><td>`char`</td><td>Size (0=8x8; 1=16x16)</td></tr>
+<tr><th>Output</th><td colspan=2>-</td></tr>
+</table>
+
+##### Examples:
+
+```c
+	SetSpritesSize(0);	//8x8
+```
+
+```c
+	SetSpritesSize(SPRITES16x16);
+```
+
+<br/>
+
+#### 4.12 SetSpritesZoom
+
+<table>
+<tr><th colspan=3 align="left">SetSpritesZoom</th></tr>
+<tr><td colspan=3>Set zoom type for the sprites.</td></tr>
+<tr><th>Function</th><td colspan=2>SetSpritesZoom(char zoom)</td></tr>
+<tr><th>Input</th><td>`char` or `boolean` or `switcher`</td><td>zoom: 0/false/OFF = x1; 1/true/ON = x2</td></tr>
+<tr><th>Output</th><td colspan=2>-</td></tr>
+</table>
+
+| Note: |
+| :---  |
+| To be able to use `boolean` or `switcher` types, you need to include [newTypes.h](https://github.com/mvac7/SDCC_MSX_fR3eL/blob/main/include/newTypes.h) in your source code. |
+
+##### Examples:
+
+```c
+	SetSpritesSize(0);	//size 8x8
+	SetSpritesZoom(0);	//zoom x1 (without zoom)
+```
+
+```c
+	SetSpritesSize(SPRITES16x16);
+	SetSpritesZoom(SPRITESzoomX2);
+```
+
+```c
+	SetSpritesZoom(ON);	//zoom x2
+```
+
+<br/>
+
+#### 4.13 ClearSprites
+
+<table>
+<tr><th colspan=3 align="left">ClearSprites</th></tr>
+<tr><td colspan=3>Initialises the Sprite Attribute Table (OAM) and Sprite Pattern Table.</td></tr>
+<tr><th>Function</th><td colspan=2>ClearSprites()</td></tr>
+<tr><th>Input</th><td colspan=2>-</td></tr>
+<tr><th>Output</th><td colspan=2>-</td></tr>
+</table>
+
+##### Example:
+
+```c
+	ClearSprites();
+	CLS();
+```
+
+| Note: |
+| :---  |
+| This function clears all sprite data. 
+If you simply want to hide all sprites on the screen, you can use a feature of the VDP: vertical position 208. 
+When we set a plane to this position, the VDP ignores the display of the rest of the sprites. 
+So, if we set plane 0 to position 208, we will hide all sprites on the screen. |
+
+<br/>
+
+#### 4.14 PUTSPRITE
+
+<table>
+<tr><th colspan=3 align="left">PUTSPRITE</th></tr>
+<tr><td colspan=3>Displays a Sprite on the screen.</td></tr>
+<tr><th>Function</th><td colspan=2>PUTSPRITE(char plane, char x, char y, char color, char pattern)</td></tr>
+<tr><th rowspan=5>Input</th><td>`char`</td><td>sprite plane (0-31)</td></tr>
+<tr><td>`char`</td><td>X coordinate</td></tr>
+<tr><td>`char`</td><td>Y coordinate</td></tr>
+<tr><td>`char`</td><td>Color (0-15)</td></tr>
+<tr><td>`char`</td><td>pattern number</td></tr>
+<tr><th>Output</th><td colspan=2>-</td></tr>
+</table>
+
+##### Example:
+
+```c
+	PUTSPRITE(1,140,156,LIGHT_GREEN,0);	//Put Sprite 0 on plane 1 at coordinates (140,156)
+```
+
+<br/>
+
 ---
-
-
-
-
-
 
 ## 5 Examples
  
 ### Example 1
 
-This example is very simple. Shows a use case for initializing a screen in graphics mode 1.
+In this source code you will find a simple example of how to use this library.
+
+Requires the following items:
+- Startup file for MSX 8/16K ROM [crt0_MSX816kROM4000](https://github.com/mvac7/SDCC_startup_MSX816kROM4000)
+- [VDP_TMS9918A_MSXBIOS Library](https://github.com/mvac7/SDCC_VDP_TMS9918A_MSXROM_Lib)
+
+And you need the following applications to compile and generate the final ROM:
+- [Small Device C Compiler (SDCC) v4.4](http://sdcc.sourceforge.net/)
+- [Hex2bin v2.5](http://hex2bin.sourceforge.net/)
+
+This example performs the following actions:
+1. Initializes the screen to Graphic1 mode (Screen 1) with 16x16 sprites in 2x zoom mode.
+1. Dumps the data from the testmap_MAP array to the VRAM Pattern Name Table using the `CopyToVRAM` function.
+1. Copy a pattern from VRAM to RAM using the `CopyFromVRAM` function.
+1. Copy the pattern to the Sprite Pattern Table (from RAM to VRAM).
+1. Display a Sprite by writing directly to the VRAM Sprite Attribute Table using the `VPOKE` function.
+1. Display a Sprite using the `PUTSPRITE` function.
+
+![Example screenshot](../examples/data/EXAMPLE1_01.png)
 
 
 #### Source code:
@@ -553,10 +640,10 @@ Version: 1.0 (20/May/2025)
 Architecture: MSX
 Format: MSX ROM 8k
 Programming language: C and Z80 assembler
-Compiler: SDCC 4.3 or newer
+Compiler: SDCC 4.4 or newer
 
 Description:
-	Simple example of the VDP TMS9918A MSX BIOS Library (fR3eL Project)
+Simple example of the VDP TMS9918A MSX BIOS Library (fR3eL Project)
 ============================================================================= */
 #include "VDP_TMS9918A_MSXBIOS.h"
 
@@ -601,7 +688,6 @@ const char testmap_MAP[]={
 0x17,0x17,0x17,0x17,0x17,0x17,0x17,0x17,0x17,0x17,0x17,0x17,0x17,0x17,0x1B,0x20};
 
 
-
 void main(void) 
 {
 	unsigned int vaddr = SPR_OAM;
@@ -618,11 +704,13 @@ void main(void)
 	CopyFromVRAM(G1_PAT+16,(unsigned int) TheSprite,8);	//Copy VRAM to RAM
 	CopyToVRAM((unsigned int) TheSprite,SPR_PAT,8);		//Copy RAM to VRAM
 	
-	// Put Sprite on plane 0
+	// Put Sprite 0 on plane 0
 	VPOKE(vaddr++,156);			//y
 	VPOKE(vaddr++,124);			//x
 	VPOKE(vaddr++,0);			//sprite pattern
 	VPOKE(vaddr,DARK_YELLOW);	//color
+	
+	PUTSPRITE(1,140,156,LIGHT_GREEN,0);	//Put Sprite 0 on plane 1 at coordinates (140,156)
 
 	// execute BIOS CHGET - One character input (waiting)
 __asm call 0x009F __endasm;	
@@ -636,7 +724,7 @@ __asm call 0x009F __endasm;
 First you must compile the source with SDCC as follows:
 
 ```
-sdcc -mz80 --code-loc 0x4020 --data-loc 0xC000 --use-stdout --no-std-crt0 crt0msx.16k.4000.rel VDP_TMS9918A.rel Example01.c
+sdcc -mz80 --code-loc 0x4020 --data-loc 0xC000 --use-stdout --no-std-crt0 crt0_MSX816kROM4000.rel VDP_TMS9918A.rel Example01.c
 ```
 
 If no error is displayed, you should run hex2bin to convert the SDCC output to a binary file.
@@ -657,6 +745,7 @@ Rename file `Example01.bin` to `EXA01.ROM`.
 - Texas Instruments VDP Programmer’s Guide [`PDF`](http://map.grauw.nl/resources/video/ti-vdp-programmers-guide.pdf)
 - Texas Instruments TMS9918A VDP by Sean Young [`TXT`](http://bifi.msxnet.org/msxnet/tech/tms9918a.txt)
 - The MSX Red Book · [2 Video Display Processor](https://github.com/gseidler/The-MSX-Red-Book/blob/master/the_msx_red_book.md#chapter_2)
+- [9938 Technical Data Book](http://map.grauw.nl/resources/video/v9938/v9938.xhtml)
 
 <br/>
 

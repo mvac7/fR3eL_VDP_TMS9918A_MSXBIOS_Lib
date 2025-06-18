@@ -7,21 +7,22 @@
 <tr><td>Programming language</td><td>C and Z80 assembler</td></tr>
 <tr><td>Compiler</td><td>SDCC v4.4 or newer</td></tr>
 </table>
- 
+
+<br/>
 
 ## Description
 
-Library with basic functions to work with the TMS9918A video processor.
+Library with functions to work with the TMS9918A/28A/29A video processor.
 
 It uses the functions from the MSX BIOS, so it is designed to create applications in ROM or MSXBASIC environments.
 
-If you need specific functions to manage Sprites, you can use any of the following libraries:
-- [SPRITES Small](https://github.com/mvac7/SDCC_VDP_SPRITES_S_MSXROM_Lib) - Basic functions for managing Sprites. It is more compact so it takes up less space in our application.
-- [SPRITES](https://github.com/mvac7/SDCC_VDP_SPRITES_MSXROM_Lib) - It includes the same functions as the Small version and adds to access specific parameters (positioning, color, pattern, visibility and EarlyClock).
-- [SPRITES 1/2](https://github.com/mvac7/SDCC_VDP_SPRITES_12_MSXROM_Lib) - Same as SPRITES but in the G3 screen mode (V9938), it treats the color parameters in a simplified way. Assign the color parameters and EarlyClock to all the lines of the Sprites.
-- SPRITES DUMP (In development) - Uses a buffer in RAM that has to be dumped in each interruption. Includes a Sprite Flicker, to allow viewing up to 8 sprites per line.
+Since the current version you can display moving figures (Sprites), using the PUTSPRITE function (similar to MSX-BASIC), but you also have the [VDP_SPRITES_MSXBIOS](https://github.com/mvac7/SDCC_VDP_SPRITES_MSXROM_Lib) library that improves the management of Sprite parameters.
 
-You also have the [VDP PRINT MSX SDCC Library](https://github.com/mvac7/SDCC_VDP_PRINT_Lib), with functions for display text strings in the graphic modes of the TMS9918A (G1 and G2).
+You also have the [VDP_PRINT](https://github.com/mvac7/SDCC_VDP_PRINT_Lib) library with functions for display text strings in the graphic modes of the TMS9918A (G1 and G2).
+
+You also have a [VDP_TMS9918A](https://github.com/mvac7/SDCC_VDP_TMS9918A_Lib) library where all functions are programmed without using the BIOS. 
+It is designed for use in environments such as DOS or 48K ROMs, although you can also use it in other environments such as ROMs or MSX-BASIC. 
+The advantage of using the BIOS is that the library is more compact and guarantees compatibility between different MSX models, but it has the disadvantage of being slow.
 
 Use them for developing MSX applications using [Small Device C Compiler (SDCC)](http://sdcc.sourceforge.net/) cross compiler.
 
@@ -29,7 +30,7 @@ You can access the documentation here with [`How to use the library`](docs/HOWTO
 
 These libraries are part of the [MSX fR3eL Project](https://github.com/mvac7/SDCC_MSX_fR3eL).
 
-This project is an Open Source. 
+This project is open source under the [MIT license](LICENSE). 
 You can add part or all of this code in your application development or include it in other libraries/engines.
 
 Enjoy it!   
@@ -73,7 +74,7 @@ Enjoy it!
 | CopyFromVRAM   | `CopyFromVRAM(unsigned int vaddr, unsigned int addr, unsigned int length)` | Block transfer from VRAM to memory  |
 | GetVDP         | `char GetVDP(char reg)` | Get value in a VDP register |
 | SetVDP         | `SetVDP(char, char)` | Writes a value to a VDP register |
-| ClearSprites   | `ClearSprites()` | Initialises the sprite attribute table (OAM) |
+| ClearSprites   | `ClearSprites()` | Initialises the Sprite Attribute Table (OAM) and Sprite Pattern Table |
 | SetSpritesSize | `SetSpritesSize(char size)` | Set size type for the sprites |
 | SetSpritesZoom | `SetSpritesZoom(char zoom)` | Set zoom type for the sprites |
 | PUTSPRITE      | `PUTSPRITE(char plane, char x, char y, char color, char pattern)` | Displays a sprite |
@@ -88,6 +89,7 @@ Enjoy it!
 - Texas Instruments VDP Programmer’s Guide [`PDF`](http://map.grauw.nl/resources/video/ti-vdp-programmers-guide.pdf)
 - Texas Instruments TMS9918A VDP by Sean Young [`TXT`](http://bifi.msxnet.org/msxnet/tech/tms9918a.txt)
 - The MSX Red Book · [2 Video Display Processor](https://github.com/gseidler/The-MSX-Red-Book/blob/master/the_msx_red_book.md#chapter_2)
+- [9938 Technical Data Book](http://map.grauw.nl/resources/video/v9938/v9938.xhtml)
 
 <br/>
 
@@ -97,13 +99,17 @@ Enjoy it!
  
 The project includes several examples that I have used to test the library and that can help you learn how to use this library.
 
-You can find them in this project in the [`../examples/`](examples/) folder.
+You can find them in the [`../examples/`](examples/) folder.
 
 <br/>
 
-### Example 1
+### Example 1 (ROM)
 
-Simple example of the library (example of the documentation).
+Example included in the HOWTO document.
+
+[`examples/Example01`](examples/Example01)
+
+![Example screenshot](examples/data/EXAMPLE1_01.png) 
 
 <br/>
 
@@ -111,3 +117,7 @@ Simple example of the library (example of the documentation).
 
 This example tests all of the library's functions in the four screen modes of the TMS9918A.
 Test the functionality of the library in a system environment for ROM (BIOS+ROM+RAM+RAM).
+
+[`examples/Example02`](examples/Example02)
+
+![Example screenshot](examples/data/EXAMPLE2_02.png) 

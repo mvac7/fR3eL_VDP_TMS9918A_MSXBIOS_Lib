@@ -28,7 +28,7 @@ environment.
 
 #define  HALT __asm halt __endasm   //wait for the next interrupt
 
-
+#define WAIT_TIME 100
 
 // ---------------------------------------------------------------------------- Labels
 
@@ -85,7 +85,7 @@ void testSpriteVisible(void);
 
 // ---------------------------------------------------------------------------- Constants
 const char text00[] = "MSX fR3eL SDCC Libraries Prj";
-const char text01[] = "Test TMS9918A MSXBIOS Lib"; 
+const char text01[] = "Test VDP_TMS9918A_MSXBIOS Lib"; 
 
 const char msg_PressKey[] = "Press any key to continue";
 
@@ -233,22 +233,22 @@ void main(void)
 //	WAIT(100);
 	
 	testColor();
-	WAIT(100);
+	WAIT(WAIT_TIME);
 
 	testSCREEN0();  
-	WAIT(100);
+	WAIT(WAIT_TIME);
 
 	testSCREEN1();  
-	WAIT(100);
+	WAIT(WAIT_TIME);
 
 	testSCREEN2();  
-	WAIT(100);
+	WAIT(WAIT_TIME);
 
 	testSCREEN3();  
-	WAIT(100);	
+	WAIT(WAIT_TIME);	
 
 	testSPRITES();
-	WAIT(100);	
+	WAIT(WAIT_TIME);	
 
 //END --------------------------------------------------------------------------  
   
@@ -314,8 +314,8 @@ __endasm;
 char isText1Mode(void)
 {
 	//char A = *(unsigned int *) 0xF3E0;	//RG1SAV
-	//if (A&0b00010000) return 1; 		//Text 40col Mode
-	if (GetVDP(1)&0b00010000) return 1; 		//Text 40col Mode
+	//if (A&0b00010000) return 1; 			//Text 40col Mode
+	if (GetVDP(1)&0b00010000) return 1; 	//Text 40col Mode
 	return 0;	
 }
 
@@ -399,15 +399,15 @@ void TestVDP(void)
 	VDPval_before = GetVDP(VDP_Mode1);
 	
 	VPRINT(0,0,">Test SetVDP()");
-	WAIT(100);
+	WAIT(WAIT_TIME);
 	SetVDP(VDP_Mode1,VDPval_before|0b00010000);	//set M1=1
 	HALT;
 	VDPval_after = GetVDP(VDP_Mode1);
-	WAIT(50);
+	WAIT(WAIT_TIME);
 	SetVDP(VDP_Mode1,VDPval_before);	//restore screen
 	HALT;
 	VPRINT(0,1,">Test GetVDP()");
-	WAIT(50);
+	WAIT(WAIT_TIME);
 	if (VDPval_after&0b00010000) VPRINT(0,2,">Test=Ok");	//VDPval_before != Textmode1 and VDPval_after == Textmode1
 	else VPRINT(0,2,"Test=ERROR!");
 		
@@ -424,22 +424,24 @@ void TestClear(char nscr)
 	boolean testResult=true;
 
 	if(nscr==0){
+		//TEXT1
 		vaddr=T1_MAP;
 		vsize=0x3C0;
 	}else{
+		//GRAPHIC1 & GRAPHIC2
 		vaddr=G1_MAP;
 		vsize=0x300;
 	}
 			
 
-	WAIT(100);
+	WAIT(WAIT_TIME);
 	
 	CLS();
-	WAIT(25);
+	WAIT(50);
 	
 	for(BC=0;BC<vsize;BC++) if(VPEEK(vaddr++)!=0) testResult=false;
 		
-	WAIT(25);
+	WAIT(50);
 	if(testResult==true) VPRINT(0,0,">Test CLS()=Ok");
 	else VPRINT(0,0,">Test CLS()=ERROR!");
 	
@@ -457,14 +459,14 @@ void testSCREEN0(void)
 	SCREEN(0);
 
 	VPRINT(31,23," SCREEN 0");
-	WAIT(50);
+	WAIT(WAIT_TIME);
 
 	//fillOrdered();
 	for(i=0;i<255;i++) VPOKE(BASE0+i,i);
-	WAIT(50);
+	WAIT(WAIT_TIME);
 
 	testVpeekVpoke();
-	WAIT(50);
+	WAIT(WAIT_TIME);
 
 	//testFill
 	VPRINT(0,0,"FillVRAM()");
@@ -486,31 +488,48 @@ void testSCREEN0(void)
 // TEST SCREEN 1 ###############################################################
 void testSCREEN1(void)
 {
+	uint vaddr;
+	char INKcolor;
+	char BGcolor;
+	char i;
+	
 	COLOR(15,5,1);    
 	SCREEN(1);
 
 	VPRINT(23,23," SCREEN 1");
-	WAIT(50);
+	WAIT(WAIT_TIME);
 
 	fillOrdered();
-	WAIT(50);
+	WAIT(WAIT_TIME);
 
 	VPRINT(0,10,"Test CopyToVRAM()");  
-	WAIT(50);
+	WAIT(WAIT_TIME);
 
 	//copy to VRAM tileset, only gfx patterns
 	CopyToVRAM((uint) TILESET_B0,BASE12+(32*8),96*8);
-	WAIT(50);
+	WAIT(WAIT_TIME);
 
 	/* colors
 	The BG Colors array defines 32 colors (each 4 bit background, and 4 bit 
 	foreground, as in VDP register 7). The colors are assigned to the BG Tiles as
 	follows: Tiles 00..07 share the first color, tiles 08..0F share the second 
 	color, etc, and tiles F8..FF share the last color.*/
+	VPRINT(0,11,"Test Color Table");  
+	vaddr = BASE6;
+	INKcolor=1;
+	BGcolor=15;
+	for(i=0;i<32;i++)
+	{
+		VPOKE(vaddr++,(BGcolor<<4)+INKcolor);
+		INKcolor++;
+		if(INKcolor>15) INKcolor=1;
+		BGcolor--;
+		if(BGcolor<1) BGcolor=15;
+	}
+	WAIT(200);
+	
 	FillVRAM(BASE6,32,0x75);
-
-	WAIT(50);
-
+	
 	testFill();
 	
 	FillVRAM(G1_MAP, 0x300, 203);
@@ -542,7 +561,7 @@ void testSCREEN2(void)
 	//bank 2
 	CopyToVRAM((uint) TILESET_B0,BASE12+0x1000+(32*8),96*8);
 	FillVRAM(BASE11+BANK2+(32*8),96*8,0x54); //colors (blue)
-	WAIT(50);
+	WAIT(WAIT_TIME);
 	//END copy
 
 
@@ -550,12 +569,12 @@ void testSCREEN2(void)
 	VPRINT(0,5,"Test CopyFromVRAM()");
 	//copy VRAM to RAM
 	CopyFromVRAM(BASE12+(32*8),0xE000,64*8);
-	WAIT(50);
+	WAIT(WAIT_TIME);
 
 	//copy RAM to VRAM
 	CopyToVRAM(0xE000,BASE12+0x600,64*8);   
 	FillVRAM(BASE11+0x600,64*8,0xFE); //colors
-	WAIT(120);
+	WAIT(WAIT_TIME);
 	//END CopyFromVRAM
 
 
@@ -591,7 +610,7 @@ void testSCREEN3(void)
 		if(value<255) value++;
 		else value=0; 
 	}
-	WAIT(250);
+	WAIT(200);
 
 }
 
@@ -616,7 +635,7 @@ void testColor(void)
 	SCREEN(0);
 
 	VPRINT(15,10,"TEST color");
-	WAIT(50);
+	WAIT(WAIT_TIME);
 
 	for(i=0;i<16;i++)
 	{ 
@@ -693,18 +712,18 @@ void testSPRITES(void)
 	SetSpritesSize(0);
 	SetSpritesZoom(false);  
 	showSprites(0);
-	WAIT(50);
+	WAIT(WAIT_TIME);
 
 	// test sprites 16x16
 	VPRINT(0,posY++, "SetSpritesSize(1) SPRITES 16x16");
 	SetSpritesSize(1);
 	showSprites(2);
-	WAIT(50);
+	WAIT(WAIT_TIME);
 
 	// test sprites 16x16 + zoom  
 	VPRINT(0,posY++, "SetSpritesZoom(true) SPRITES x2");
 	SetSpritesZoom(true);
-	WAIT(50);
+	WAIT(WAIT_TIME);
 
 	//test clear sprites data
 	VPRINT(0,posY++, "ClearSprites()");
@@ -712,9 +731,9 @@ void testSPRITES(void)
 	WAIT(100);
 
 	setSpritesPatterns();
-	VPRINT(0,posY++, "PUTSPRITE(plane,x,y,color,nSPR)");
+	VPRINT(0,posY++, "PUTSPRITE(plane,x,y,color,patt)");
 	showSprites(2);
-	WAIT(50);	
+	WAIT(WAIT_TIME);	
 
 	VPRINT(0,posY++, "Visible");
 	testSpriteVisible();
@@ -728,11 +747,11 @@ void testSPRITES(void)
 	VPRINT(0,posY++, "Change Position");
 	testSpritePosition();
 
-	WAIT(50);
+	WAIT(WAIT_TIME);
 
 	VPRINT(0,posY++, "Set EarlyClock");
 	PUTSPRITE(7, spr_posX[7], spr_posY[7], 8+127, 9);
-	WAIT(50);
+	WAIT(WAIT_TIME);
 
 	VPRINT(0,posY++, "Unset EarlyClock");
 	PUTSPRITE(7, spr_posX[7], spr_posY[7], 8, 9);
@@ -846,7 +865,7 @@ void testSpritePosition(void)
 	for(i=0;i<660;i++)
 	{
 		HALT;
-		PUTSPRITE(7, SIN[gradX], SIN[gradY], 8, 9);
+		PUTSPRITE(7, SIN[gradX], SIN[gradY], 14, 9);
 		gradX++;
 		gradY++;  
 	}

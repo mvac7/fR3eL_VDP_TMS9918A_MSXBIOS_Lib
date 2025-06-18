@@ -4,10 +4,10 @@ Version: 1.0 (20/May/2025)
 Architecture: MSX
 Format: MSX ROM 8k
 Programming language: C and Z80 assembler
-Compiler: SDCC 4.3 or newer
+Compiler: SDCC 4.4 or newer
 
 Description:
-	Simple example of the VDP TMS9918A MSX BIOS Library (fR3eL Project)
+Simple example of the VDP TMS9918A MSX BIOS Library (fR3eL Project)
 ============================================================================= */
 #include "VDP_TMS9918A_MSXBIOS.h"
 
@@ -52,7 +52,6 @@ const char testmap_MAP[]={
 0x17,0x17,0x17,0x17,0x17,0x17,0x17,0x17,0x17,0x17,0x17,0x17,0x17,0x17,0x1B,0x20};
 
 
-
 void main(void) 
 {
 	unsigned int vaddr = SPR_OAM;
@@ -69,11 +68,13 @@ void main(void)
 	CopyFromVRAM(G1_PAT+16,(unsigned int) TheSprite,8);	//Copy VRAM to RAM
 	CopyToVRAM((unsigned int) TheSprite,SPR_PAT,8);		//Copy RAM to VRAM
 	
-	// Put Sprite on plane 0
+	// Put Sprite 0 on plane 0
 	VPOKE(vaddr++,156);			//y
 	VPOKE(vaddr++,124);			//x
 	VPOKE(vaddr++,0);			//sprite pattern
 	VPOKE(vaddr,DARK_YELLOW);	//color
+	
+	PUTSPRITE(1,140,156,LIGHT_GREEN,0);	//Put Sprite 0 on plane 1 at coordinates (140,156)
 
 	// execute BIOS CHGET - One character input (waiting)
 __asm call 0x009F __endasm;	
