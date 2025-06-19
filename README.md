@@ -3,6 +3,7 @@
 <table>
 <tr><td>Name</td><td>VDP_TMS9918A_MSXBIOS</td></tr>
 <tr><td>Architecture</td><td>MSX</td></tr>
+<tr><td>Environment</td><td>ROM, MSXBASIC</td></tr>
 <tr><td>Format</td><td>C Object (SDCC .rel)</td></tr>
 <tr><td>Programming language</td><td>C and Z80 assembler</td></tr>
 <tr><td>Compiler</td><td>SDCC v4.4 or newer</td></tr>
@@ -38,6 +39,7 @@ Enjoy it!
 ---
 
 ## History of versions
+(dd/mm/yyyy)
 
 - v1.4 (12/06/2025) add PUTSPRITE function
 - v1.3 ( 1/12/2023) update to SDCC (4.1.12) Z80 calling conventions
@@ -81,18 +83,6 @@ Enjoy it!
 
 ---
 
-## Documentation
-
-- Texas Instruments TMS9918A application manual [`PDF`](http://map.grauw.nl/resources/video/texasinstruments_tms9918.pdf)
-- Texas Instruments VDP Programmer’s Guide [`PDF`](http://map.grauw.nl/resources/video/ti-vdp-programmers-guide.pdf)
-- Texas Instruments TMS9918A VDP by Sean Young [`TXT`](http://bifi.msxnet.org/msxnet/tech/tms9918a.txt)
-- The MSX Red Book · [2 Video Display Processor](https://github.com/gseidler/The-MSX-Red-Book/blob/master/the_msx_red_book.md#chapter_2)
-- [9938 Technical Data Book](http://map.grauw.nl/resources/video/v9938/v9938.xhtml)
-
-<br/>
-
----
-
 ## Examples
  
 The project includes several examples that I have used to test the library and that can help you learn how to use this library.
@@ -119,3 +109,18 @@ Test the functionality of the library in a system environment for ROM (BIOS+ROM+
 [`examples/Example02`](examples/Example02)
 
 ![Example screenshot](examples/data/EXAMPLE2_02.png) 
+
+<br/>
+
+---
+
+## Documentation
+
+- Texas Instruments [TMS9918A application manual](http://map.grauw.nl/resources/video/texasinstruments_tms9918.pdf) `PDF`
+- Texas Instruments [VDP Programmer’s Guide](http://map.grauw.nl/resources/video/ti-vdp-programmers-guide.pdf) `PDF`
+- Texas Instruments [TMS9918A VDP](http://bifi.msxnet.org/msxnet/tech/tms9918a.txt) by Sean Young `TXT`
+- The MSX Red Book · [2 Video Display Processor](https://github.com/gseidler/The-MSX-Red-Book/blob/master/the_msx_red_book.md#chapter_2) `HTML`
+- YAMAHA [9938 Technical Data Book](http://map.grauw.nl/resources/video/v9938/v9938.xhtml) `HTML`
+
+<br/>
+
