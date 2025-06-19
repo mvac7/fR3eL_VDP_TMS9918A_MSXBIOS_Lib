@@ -1,4 +1,4 @@
-# How to use the VDP TMS9918A MSX BIOS Library
+# How to use the VDP_TMS9918A_MSXBIOS Library
 
 | Attention! |
 | :---       |
@@ -282,7 +282,7 @@ BANK2	| 0x1000
 <table>
 <tr><th colspan=3 align="left">SCREEN</th></tr>
 <tr><td colspan=3>Initializes the display to one of the four standardized modes on the MSX.<br/>Same as the SCREEN instruction in MSX BASIC.</td></tr>
-<tr><th>Function</th><td colspan=2>SCREEN(char mode)<td></tr>
+<tr><th>Function</th><td colspan=2>SCREEN(char mode)</td></tr>
 <tr><th>Input</th><td>char</td><td>Screen mode (0-3)</td></tr>
 <tr><th>Output</th><td colspan=2>-</td></tr>
 </table>
@@ -353,7 +353,7 @@ Ink and background colors are only used when starting the screen with the SCREEN
 <table>
 <tr><th colspan=3 align="left">VPOKE</th></tr>
 <tr><td colspan=3>Writes a value to the video RAM.</td></tr>
-<tr><th>Function</th><td colspan=2>VPOKE(char value, unsigned int VRAMaddr)<td></tr>
+<tr><th>Function</th><td colspan=2>VPOKE(char value, unsigned int VRAMaddr)</td></tr>
 <tr><th rowspan=2>Input</th><td>char</td><td>Value</td></tr>
 <tr><td>unsigned int</td><td>VRAM address</td></tr>
 <tr><th>Output</th><td colspan=2>-</td></tr>
@@ -378,7 +378,7 @@ Ink and background colors are only used when starting the screen with the SCREEN
 <table>
 <tr><th colspan=3 align="left">VPEEK</th></tr>
 <tr><td colspan=3>Reads a value from the video RAM.</td></tr>
-<tr><th>Function</th><td colspan=2>VPEEK(unsigned int VRAMaddr)<td></tr>
+<tr><th>Function</th><td colspan=2>VPEEK(unsigned int VRAMaddr)</td></tr>
 <tr><th>Input</th><td>unsigned int</td><td>VRAM address</td></tr>
 <tr><th>Output</th><td>char</td><td>Value</td></tr>
 </table>
@@ -397,7 +397,7 @@ Ink and background colors are only used when starting the screen with the SCREEN
 <table>
 <tr><th colspan=3 align="left">FillVRAM</th></tr>
 <tr><td colspan=3>Fill a large area of the VRAM of the same byte.</td></tr>
-<tr><th>Function</th><td colspan=2>FillVRAM(unsigned int VRAMaddr, unsigned int size, char value)<td></tr>
+<tr><th>Function</th><td colspan=2>FillVRAM(unsigned int VRAMaddr, unsigned int size, char value)</td></tr>
 <tr><th rowspan=3>Input</th><td>unsigned int</td><td>VRAM address</td></tr>
 <tr><td>unsigned int</td><td>blocklength</td></tr>
 <tr><td>char</td><td>Value</td></tr>
@@ -417,7 +417,7 @@ Ink and background colors are only used when starting the screen with the SCREEN
 <table>
 <tr><th colspan=3 align="left">CopyToVRAM</th></tr>
 <tr><td colspan=3>Block transfer from memory to VRAM.</td></tr>
-<tr><th>Function</th><td colspan=2>CopyToVRAM(unsigned int MEMaddr, unsigned int VRAMaddr, unsigned int size)<td></tr>
+<tr><th>Function</th><td colspan=2>CopyToVRAM(unsigned int MEMaddr, unsigned int VRAMaddr, unsigned int size)</td></tr>
 <tr><th rowspan=3>Input</th><td>unsigned int</td><td>Memory address</td></tr>
 <tr><td>unsigned int</td><td>VRAM address</td></tr>
 <tr><td>unsigned int</td><td>blocklength</td></tr>
@@ -439,7 +439,7 @@ Ink and background colors are only used when starting the screen with the SCREEN
 <table>
 <tr><th colspan=3 align="left">CopyFromVRAM</th></tr>
 <tr><td colspan=3>Block transfer from VRAM to RAM.</td></tr>
-<tr><th>Function</th><td colspan=2>CopyFromVRAM(unsigned int VRAMaddr, unsigned int RAMaddr, unsigned int size)<td></tr>
+<tr><th>Function</th><td colspan=2>CopyFromVRAM(unsigned int VRAMaddr, unsigned int RAMaddr, unsigned int size)</td></tr>
 <tr><th rowspan=3>Input</th><td>unsigned int</td><td>VRAM address</td></tr>
 <tr><td>unsigned int</td><td>RAM address</td></tr>
 <tr><td>unsigned int</td><td>blocklength</td></tr>
@@ -479,7 +479,7 @@ Ink and background colors are only used when starting the screen with the SCREEN
 <table>
 <tr><th colspan=3 align="left">SetVDP</th></tr>
 <tr><td colspan=3>Writes a value to a VDP register.</td></tr>
-<tr><th>Function</th><td colspan=2>SetVDP(char register, char value)<td></tr>
+<tr><th>Function</th><td colspan=2>SetVDP(char register, char value)</td></tr>
 <tr><th rowspan=2>Input</th><td>char</td><td>VDP register (0-7)</td></tr>
 <tr><td>char</td><td>value</td></tr>
 <tr><th>Output</th><td colspan=2>-</td></tr>
@@ -528,7 +528,7 @@ Ink and background colors are only used when starting the screen with the SCREEN
 <tr><th colspan=3 align="left">SetSpritesZoom</th></tr>
 <tr><td colspan=3>Set zoom type for the sprites.</td></tr>
 <tr><th>Function</th><td colspan=2>SetSpritesZoom(char zoom)</td></tr>
-<tr><th>Input</th><td>char or boolean or switcher</td><td>zoom: 0/false/OFF = x1; 1/true/ON = x2</td></tr>
+<tr><th>Input</th><td>char or boolean or switcher</td><td>zoom:<br/>0/false/OFF = x1<br/>1/true/ON = x2</td></tr>
 <tr><th>Output</th><td colspan=2>-</td></tr>
 </table>
 
