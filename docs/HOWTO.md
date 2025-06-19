@@ -327,7 +327,7 @@ In Text1 mode, the color change is instantaneous except the border color which h
 In GRAPHIC1, GRAPHIC2 and Multicolor modes, only the border color has an instant effect.<br/>
 Ink and background colors are only used when starting the screen with the SCREEN() function.
 </td></tr>
-<tr><th>Function</th><td colspan=2>COLOR(char ink, char BG, char border)<td></tr>
+<tr><th>Function</th><td colspan=2>COLOR(char ink, char BG, char border)</td></tr>
 <tr><th rowspan=3>Input</th><td>char</td><td>Ink color (0-15)</td></tr>
 <tr><td>char</td><td>Background color (0-15)</td></tr>
 <tr><td>char</td><td>Border color (0-15)</td></tr>
@@ -459,7 +459,7 @@ Ink and background colors are only used when starting the screen with the SCREEN
 <table>
 <tr><th colspan=3 align="left">GetVDP</th></tr>
 <tr><td colspan=3>Gets the value in a VDP register.<br/>Provides the mirror value stored in system variables.</td></tr>
-<tr><th>Function</th><td colspan=2>GetVDP(char register)<td></tr>
+<tr><th>Function</th><td colspan=2>GetVDP(char register)</td></tr>
 <tr><th>Input</th><td>char</td><td>VDP register number (0-7)</td></tr>
 <tr><th>Output</th><td>char</td><td>Value</td></tr>
 </table>
@@ -506,7 +506,7 @@ Ink and background colors are only used when starting the screen with the SCREEN
 <tr><th colspan=3 align="left">SetSpritesSize</th></tr>
 <tr><td colspan=3>Set size type for the sprites.</td></tr>
 <tr><th>Function</th><td colspan=2>SetSpritesSize(char size)</td></tr>
-<tr><th>Input</th><td>char</td><td>Size (0=8x8; 1=16x16)</td></tr>
+<tr><th>Input</th><td>char</td><td>Size:<br/>0 = 8x8<br/>1 = 16x16)</td></tr>
 <tr><th>Output</th><td colspan=2>-</td></tr>
 </table>
 
