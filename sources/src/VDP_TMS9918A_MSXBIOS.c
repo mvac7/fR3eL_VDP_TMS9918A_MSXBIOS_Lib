@@ -1,10 +1,10 @@
 /* ============================================================================= 
 # VDP TMS9918A MSX BIOS Library (fR3eL Project)
 
-- Version: 1.4 (12/06/2025)
+- Version: 1.5 (22/07/2025)
 - Author: mvac7/303bcn
 - Architecture: MSX
-- Format: C object (SDCC .rel)
+- Format: SDCC Relocatable object file (.rel)
 - Programming language: C and Z80 assembler
 - Compiler: SDCC 4.4 or newer 
 
@@ -13,18 +13,24 @@ Open Source library of functions to work with the TMS9918A video processor
 using BIOS functions 
 
 ## History of versions (dd/mm/yyyy):
-- v1.4 (12/06/2025) add PUTSPRITE function
-- v1.3 ( 1/12/2023)	update to SDCC (4.1.12) Z80 calling conventions
+- 1.5 (22/07/2025) Changes for the new version of the VDP_SPRITES library.
+	- Added GetSPRattrVRAM function
+	- Added GetSpritePattern routine for Assembler Inline
+	- Added ReadByteFromVRAM and WriteByteToVRAM labels for Assembler Inline
+- v1.4 (12/06/2025) 
+	- Added PUTSPRITE function
+- v1.3 ( 1/12/2023)	Update to SDCC (4.1.12) Z80 calling conventions
 - v1.2 (22/12/2020)	Conversion to source in C and added Sprite initialization 
 					functions.
 - v1.1 (14/02/2014) 
-- v1.0 (11/02/2014)                             
+- v1.0 (11/02/2014) First version.
 ============================================================================= */ 
 
 #include "../include/msxSystemVariables.h"
 #include "../include/msxBIOS.h"
 
 #include "../include/VDP_TMS9918A_MSXBIOS.h"
+
 
 
 char SPRITE_BF[4];		//buffer with sprite data (Y,X,Pattern number,Color)
@@ -120,7 +126,7 @@ __asm
 	bit  4,A			;M1
 	jr   Z,CLS_NOTEXTMODE
 
-;TEXT mode
+;Clear TEXT mode
 	xor  A
 	ld   HL,#T1_MAP
 	ld   BC,#0x3C0
@@ -174,7 +180,22 @@ char VPEEK(unsigned int vaddr) __naked
 {
 vaddr;	//HL
 __asm
-	jp BIOS_RDVRM
+ReadByteFromVRAM::
+	jp   BIOS_RDVRM
+
+
+/* ------------------------------------------------
+Label:	WriteByteToVRAM
+Description: 
+		Writes a value to VRAM 
+Input:	[HL] VRAM address
+		[A]  value
+Output:	-
+Note:	I add this routine here, since including it 
+		in the VPOKE function would make it heavier
+--------------------------------------------------- */
+WriteByteToVRAM::
+	jp   BIOS_WRTVRM	
 __endasm;
 }
 
@@ -393,7 +414,6 @@ SetSprNOzoom:
 setVDPREG01:  
 	ld   C,#0x01
 	jp   BIOS_WRTVDP
-
 __endasm;
 }
 
@@ -418,40 +438,81 @@ __asm
 	ld   IX,#0
 	add  IX,SP
 
-	ld   E,A	//plane
+	ld   B,A	//plane
 	ld   D,L	//x
 	
 	ld   HL,#_SPRITE_BF
 	ld   C,4(IX)
 	ld   (HL),C		//Y
+	
 	inc  HL
 	ld   (HL),D		//X
-	inc  HL
-	ld   C,6(IX)
-//Set sprite pattern number
-//Multiply * 4 when its a 16x16 sprite
-	call BIOS_GSPSIZ          ;0x008A get sprite size in bytes (Carry flag set when size is 16×16)
-	jr   NC,PSsetPat
-
-//IF 16x16
-	SLA  C
-	SLA  C ;x 4 
 	
-PSsetPat:	
-	ld   (HL),C
+	inc  HL
+	ld   E,6(IX)	//Sprite pattern
+	call GetSpritePattern	//Input:E; Output:A-->pattern position according to sprite size
+	ld   (HL),A
+	
 	inc  HL
 	ld   C,5(IX)
 	ld   (HL),C		//color
 
 //write Sprite Buffer to VRAM
-	ld   A,E		//plane
-	call BIOS_CALATR	//Returns the address of the sprite attribute table (VRAM) --> HL
+	ld   A,B		//plane
+	call GetSPRattrVADDR	//Input: A-->Sprite plane; Output: HL-->VRAM addr
 	ld   DE,#_SPRITE_BF
 	ex   DE,HL
 	ld   BC,#4
 	call BIOS_LDIRVM	//Block transfer to VRAM from memory
 	
 	pop  IX
+	
+__endasm;
+}
+
+
+
+/* =============================================================================
+GetSPRattrVRAM
+Description: 
+		Gets the address in video memory of the Sprite attributes of specified 
+		plane.
+Input:	[char] sprite plane (0-31) 
+Output:	[unsigned int] VRAM address
+============================================================================= */
+unsigned int GetSPRattrVRAM(char plane) __naked
+{
+plane;		//A
+__asm
+	call GetSPRattrVADDR	//Input: A-->Sprite plane; Output: HL-->VRAM addr
+	ex   DE,HL
+	ret						//return DE
+
+GetSPRattrVADDR::
+	jp   0x0087	
+	
+	
+/* =============================================================================
+GetSpritePattern
+Description: 
+		Returns the pattern value according to the Sprite size 
+		(multiplied by 4 when its 16x16).
+Input:	[E] sprite pattern 
+Output: [A] pattern position
+Regs:	A
+============================================================================= */
+GetSpritePattern::
+
+	ld   A,(#RG0SAV+1)	// read vdp(1) from mem
+
+	bit  1,A			//Sprite size; 1=16x16
+	ld   A,E
+	ret  Z				//same value
+
+//if spritesize = 16x16 then E*4
+    add  A				//(5ts)
+	add  A				//multiply x 4	
+	ret
 	
 __endasm;
 }

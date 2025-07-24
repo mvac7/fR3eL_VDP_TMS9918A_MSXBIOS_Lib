@@ -161,6 +161,8 @@ Sprite hiding coordinates
 
 
 
+
+
 /* =============================================================================
 SCREEN
 Description:	
@@ -341,6 +343,18 @@ Input:	[char] sprite plane (0-31)
 Output:	-
 ============================================================================= */
 void PUTSPRITE(char plane, char x, char y, char color, char pattern);
+
+
+
+/* =============================================================================
+GetSPRattrVRAM
+Description: 
+		Gets the address in video memory of the Sprite attributes of specified 
+		plane.
+Input:	[char] sprite plane (0-31) 
+Output:	[unsigned int] VRAM address
+============================================================================= */
+unsigned int GetSPRattrVRAM(char plane);
 
 
 

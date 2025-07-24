@@ -11,7 +11,7 @@ SET CRT=libs\crt_MSX816kROM4000.rel
 REM add paths from our objects files into LIBn variables
 REM don't erase empty variables
 SET LIB0=libs\VDP_TMS9918A_MSXBIOS.rel
-SET LIB1=
+SET LIB1=libs\keyboard_MSXBIOS.rel
 SET LIB2=
 SET LIB3=
 SET LIB4=

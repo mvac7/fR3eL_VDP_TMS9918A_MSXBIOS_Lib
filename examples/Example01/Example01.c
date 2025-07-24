@@ -52,14 +52,16 @@ const char testmap_MAP[]={
 0x17,0x17,0x17,0x17,0x17,0x17,0x17,0x17,0x17,0x17,0x17,0x17,0x17,0x17,0x1B,0x20};
 
 
+
 void main(void) 
 {
-	unsigned int vaddr = SPR_OAM;
+	unsigned int vaddr;
 	char TheSprite[8];			//buffer for one Sprite patter
 		
 	COLOR(15,4,5);
  	SCREEN(GRAPHIC1);			// Set Screen 1
 	SetSpritesSize(SPRITES8x8);
+	SetSpritesZoom(SPRITESzoomX2);
 	
 	// Copy a block of characters (tiles) to VRAM Name Table
 	CopyToVRAM((unsigned int) testmap_MAP,G1_MAP+32,544);
@@ -68,13 +70,15 @@ void main(void)
 	CopyFromVRAM(G1_PAT+16,(unsigned int) TheSprite,8);	//Copy VRAM to RAM
 	CopyToVRAM((unsigned int) TheSprite,SPR_PAT,8);		//Copy RAM to VRAM
 	
-	// Put Sprite 0 on plane 0
+	// Put Sprite pattern 0 on plane 10
+	vaddr=GetSPRattrVRAM(10);	//sprite plane 10
 	VPOKE(vaddr++,156);			//y
 	VPOKE(vaddr++,124);			//x
-	VPOKE(vaddr++,0);			//sprite pattern
+	VPOKE(vaddr++,0);			//sprite pattern (x4 if 16x16)
 	VPOKE(vaddr,DARK_YELLOW);	//color
 	
-	PUTSPRITE(1,140,156,LIGHT_GREEN,0);	//Put Sprite 0 on plane 1 at coordinates (140,156)
+	// Put Sprite pattern 0 on plane 12 at coordinates (140,156)
+	PUTSPRITE(12,148,156,LIGHT_GREEN,0);
 
 	// execute BIOS CHGET - One character input (waiting)
 __asm call 0x009F __endasm;	
