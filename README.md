@@ -91,6 +91,8 @@ Enjoy it!
 | GetVDP | `GetVDP(reg)`        | `char` | Gets the value in a VDP register.<br/>Provides the mirror value stored in system variables |
 | SetVDP | `SetVDP(reg, value)` | ---    | Writes a value to a VDP register |
 
+<br/>
+
 ### Access to video memory
 
 | Name | Declaration | Output | Description |
@@ -142,7 +144,12 @@ Test the functionality of the library in a system environment for ROM (BIOS+ROM+
 
 [`examples/Example02`](examples/Example02)
 
-![Example screenshot](docs/pics/EXAMPLE2_03.png) 
+![Example 2 screenshot 1](docs/pics/EXAMPLE2_01.png) 
+![Example 2 screenshot 2](docs/pics/EXAMPLE2_02.png) 
+![Example 2 screenshot 3](docs/pics/EXAMPLE2_03.png)
+![Example 2 screenshot 4](docs/pics/EXAMPLE2_04.png)
+![Example 2 screenshot 5](docs/pics/EXAMPLE2_05.png)
+![Example 2 screenshot 6](docs/pics/EXAMPLE2_06.png)
 
 <br/>
 
