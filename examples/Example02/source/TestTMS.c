@@ -14,7 +14,7 @@ environment.
 
 ## History of versions:
 - v1.4 (24/07/2025) 
-	- Changes to resemble the VDP_TMS9918A library test application
+	- Changes to resemble the VDP_TMS9918A library TestTMS v1.5 application
 - v1.3 ( 1/12/2023) update to SDCC (4.3). For v1.5 library
 - v1.2 (13/ 4/2018)
 ============================================================================= */
@@ -961,6 +961,7 @@ void testVpeekVpoke(void)
 	for(i=0;i<255;i++){
 		if (VPEEK(vaddr++)!=i){testResult=false;break;}
 	}
+	WAIT(WAIT_TIME/2);
 	VPRINT(CheckResult[testResult]);
 	WAIT(WAIT_TIME);
 }

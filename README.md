@@ -99,7 +99,7 @@ Enjoy it!
 | ---  | ---         | ---    | ---         |
 | VPOKE          | `VPOKE(vaddr, value)`   | --- | Writes a value to VRAM |
 | VPEEK          | `VPEEK(vaddr)` | `char` | Reads a value from VRAM |
-| FillVRAM       | `FillVRAM(vaddr, size, value)`    | --- | Fills an area of ??VRAM with the same value. |
+| FillVRAM       | `FillVRAM(vaddr, size, value)`    | --- | Fills an area of VRAM with the same value |
 | CopyToVRAM     | `CopyToVRAM(addr, vaddr, size)`   | --- | Block transfer from memory to VRAM    |
 | CopyFromVRAM   | `CopyFromVRAM(vaddr, addr, size)` | --- | Block transfer from VRAM to memory  |
 
