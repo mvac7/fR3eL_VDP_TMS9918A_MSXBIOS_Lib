@@ -94,12 +94,12 @@ __asm
 	ld   IX,#0
 	add  IX,SP
 
-	ld   (#FORCLR),A	;14c
-	ld   A,L          ;5c
-	ld   (#BAKCLR),A	;14c
-	ld   A,4(IX)     	;21c
-	ld   (#BDRCLR),A	;14c
-;total ------------->68c
+	ld   (#FORCLR),A	//14c
+	ld   A,L          	//5c
+	ld   (#BAKCLR),A	//14c
+	ld   A,4(IX)     	//21c
+	ld   (#BDRCLR),A	//14c
+//total ----------------->68c
 
 	call BIOS_CHGCLR
 

@@ -29,8 +29,8 @@ It is designed for environments such as DOS or 48K ROMs, where direct access to 
 although it is advisable for any environment that requires optimal access to VRAM.
 
 You can complement it with any of these libraries:
-- [VDP_PRINT](https://github.com/mvac7/fR3eL_VDP_PRINT_Lib) Library with functions for display text strings in the graphic modes of the TMS9918A (G1 and G2).
-- [VDP_SPRITES_MSXBIOS](https://github.com/mvac7/fR3eL_VDP_SPRITES_MSXBIOS_Lib) Library with functions for directly accessing sprite attributes from the TMS9918A video processor.
+- [VDP_PRINT](https://github.com/mvac7/fR3eL_VDP_PRINT_Lib) Library with functions for display text strings in the graphic modes of the TMS9918A (Graphic1 and Graphic2).
+- [VDP_SPRITES](https://github.com/mvac7/fR3eL_VDP_SPRITES_Lib) Library with functions for directly accessing sprite attributes from the TMS9918A video processor.
 
 You can access the documentation here with [`How to use the library`](docs/HOWTO.md).
 
