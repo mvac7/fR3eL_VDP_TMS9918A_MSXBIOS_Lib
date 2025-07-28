@@ -52,7 +52,7 @@
 
 ## 1 Description
 
-C Library functions to work with the TMS9918A/28A/29A video processor.
+C function library for working with the TMS9918A/28A/29A video processor.
 
 This library contains a collection of functions for basic access to VDP capabilities, such as: 
 initializing display modes, accessing registers, accessing video memory, and displaying sprites.

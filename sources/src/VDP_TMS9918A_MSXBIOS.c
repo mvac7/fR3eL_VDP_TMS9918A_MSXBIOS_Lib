@@ -9,8 +9,11 @@
 - Compiler: SDCC 4.4 or newer 
 
 ## Description:
-Open Source library of functions to work with the TMS9918A video processor
-using BIOS functions 
+C function library for working with the TMS9918A/28A/29A video processor.
+
+This library contains a collection of functions for basic access to VDP 
+capabilities, such as: initializing display modes, accessing registers, 
+accessing video memory, and displaying sprites.
 
 ## History of versions (dd/mm/yyyy):
 - 1.5 (22/07/2025) Changes for the new version of the VDP_SPRITES library.
